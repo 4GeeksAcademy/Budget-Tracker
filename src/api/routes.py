@@ -5,6 +5,9 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 api = Blueprint('api', __name__)
 
@@ -12,11 +15,26 @@ api = Blueprint('api', __name__)
 CORS(api)
 
 
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
+# Create a route to authenticate your users and return JWTs. The
+# create_access_token() function is used to actually generate the JWT.
 
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
+
+@api.route('/users', methods=['GET'])
+def handle_users():
+
+    users = User.query.all()
+    all_users = list(map(lambda x: x.serialize(), users))
+
+    return jsonify(all_users), 200
+
+
+@api.route("/hello", methods=["GET"])
+@jwt_required()
+def get_hello():
+
+    email = get_jwt_identity()
+    dictionary = {
+        "message": "Hello from the back end 👋 " + email
     }
-
-    return jsonify(response_body), 200
+    
+    return jsonify(dictionary)

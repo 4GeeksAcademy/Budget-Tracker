@@ -2,14 +2,17 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, request, jsonify, url_for, send_from_directory, session
+from flask_bcrypt import Bcrypt
+from datetime import datetime, timedelta, timezone
 from flask_migrate import Migrate
-from flask_swagger import swagger
+from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, User
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 
 # from models import Person
 
@@ -17,7 +20,13 @@ ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
+CORS(app)
+bcrypt = Bcrypt(app)
 app.url_map.strict_slashes = False
+
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
+jwt = JWTManager(app)
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -57,6 +66,71 @@ def sitemap():
     return send_from_directory(static_file_dir, 'index.html')
 
 # any other endpoint will try to serve it like a static file
+
+@app.route("/api/token", methods=["POST"])
+def create_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    
+    user = User.query.filter_by(email=email).first()
+ 
+    if user is None:
+        return jsonify({"error": "Email not found!"}), 401
+    
+    if not bcrypt.check_password_hash(user.password, password):
+        return jsonify({"error": "Wrong password!"}), 401
+
+    access_token = create_access_token(identity=email)
+    
+    return jsonify({
+        "email": email,
+        "access_token": access_token
+    })
+
+
+@app.route("/api/signup", methods=["POST"])
+def signup():
+    email = request.json["email"]
+    password = request.json["password"]
+    is_active = False
+
+    user_exists = User.query.filter_by(email=email).first() is not None
+
+    if user_exists:
+        return jsonify({"Error": "Email already taken"}), 409
+    
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    new_user = User(email=email, password=hashed_password, is_active=is_active)
+    db.session.add(new_user)
+    db.session.commit()
+
+    session["user_id"] = new_user.id
+
+    return jsonify({
+        "id": new_user.id,
+        "email": new_user.email,
+        "Active": is_active
+    })
+
+@app.route("/api/login", methods=["POST"])
+def login():
+    email = request.json["email"]
+    password = request.json["password"]
+
+    user = User.query.filter_by(email=email).first()
+
+    if user is None:
+        return jsonify({"error": "Incorrect Email"}), 401
+    
+    if not bcrypt.check_password_hash(user.password, password):
+         return jsonify({"error": "Incorrect Password"}), 401
+    
+    session["user_id"] = user.id
+
+    return jsonify({
+        "id": user.id,
+        "email": user.email
+    })
 
 
 @app.route('/<path:path>', methods=['GET'])
