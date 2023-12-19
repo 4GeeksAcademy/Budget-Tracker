@@ -11,9 +11,12 @@ export const Signup = () => {
       const { store, actions } = useContext(Context);
       const [email, setEmail] = useState("");
       const [password, setPassword] = useState("");
+      const navigate = useNavigate();
 
       const handleSubmit = () => {
-            actions.signup(email, password);
+            actions.signup(email, password).then(() => {
+                  navigate("/login");
+            })
             
       };
 
@@ -25,7 +28,7 @@ export const Signup = () => {
               <Col md="auto" className="text-center">
                      <div>
                         <h1 className="mb-4">Register</h1>
-                        <Form>
+                       
                               <Form.Group className="mb-3" controlId="email">
                                     <Form.Control type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                     <Form.Text className="text-muted">
@@ -40,7 +43,7 @@ export const Signup = () => {
                                     Signup
                               </Button>
 
-                        </Form>
+                        
                         <p>Already registered?<a href="/login" className="link-info link-register"> Login</a></p>
                      </div>
                  </Col>

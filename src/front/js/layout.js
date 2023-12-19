@@ -5,6 +5,7 @@ import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
 import { Signup } from "./pages/signup";
+import { Private } from "./pages/private";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -26,6 +27,7 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<Login />} path="/login/" />
                         <Route element={<Signup />} path="/signup/" />
+                        <Route element={<Private />} path="/private/" />
                     </Routes>
                  </ScrollToTop>
             </BrowserRouter>

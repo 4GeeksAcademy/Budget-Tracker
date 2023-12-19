@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			user: null,
 			token: null,
 			demo: [
 				{
@@ -101,6 +102,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const resp = await fetch("https://studious-potato-4j7v6996rjq5cqpvv-3001.app.github.dev/api/hello", opts)
 					const data = await resp.json()
 					setStore({ message: data.message })
+					// don't forget to return something, that is how the async resolves
+					return data;
+				}catch(error){
+					console.log("Error loading message from backend", error)
+				}
+			},
+
+			getUser: async () => {
+				const store = getStore();
+				const opts = {
+					headers: {
+						Authorization: "Bearer " + store.token
+					}
+				};
+
+				try{
+					// fetching data from the backend
+					const resp = await fetch("https://studious-potato-4j7v6996rjq5cqpvv-3001.app.github.dev/api/private", opts)
+					const data = await resp.json()
+					setStore({ user: data.message })
 					// don't forget to return something, that is how the async resolves
 					return data;
 				}catch(error){

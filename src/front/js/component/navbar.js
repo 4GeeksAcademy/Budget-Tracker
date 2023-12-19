@@ -21,7 +21,14 @@ export const Navbar = () => {
 						<button className="btn btn-primary">Login</button>
 					</Link>
 					:
-					<button onClick={ handleLogout }  className="btn btn-primary">Logout</button>
+					<>
+						<Link to="/private">
+						<button className="btn btn-danger me-3">Private</button>
+						</Link>
+
+						<button onClick={ handleLogout }  className="btn btn-primary">Logout</button>
+										
+					</>
 					
 					}
 					<Link to="/signup">

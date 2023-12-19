@@ -38,3 +38,15 @@ def get_hello():
     }
     
     return jsonify(dictionary)
+
+
+@api.route("/private", methods=["GET"])
+@jwt_required()
+def get_user():
+
+    email = get_jwt_identity()
+    dictionary = {
+        "message": "This is a private message directed to " + email + ". Please do not share it!"
+    }
+    
+    return jsonify(dictionary)
