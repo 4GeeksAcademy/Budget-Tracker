@@ -15,7 +15,7 @@ export const Login = () => {
  
       const handleLogin = () => {
             actions.login(email, password).then(()=> {
-                  navigate("/");
+                  navigate("/dashboard");
             })
             };
 

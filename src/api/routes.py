@@ -40,7 +40,7 @@ def get_hello():
     return jsonify(dictionary)
 
 
-@api.route("/private", methods=["GET"])
+@api.route("/dashboard", methods=["GET"])
 @jwt_required()
 def get_user():
 
