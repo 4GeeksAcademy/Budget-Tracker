@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from flask_migrate import Migrate
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User
+from api.models import db, User, Budget
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -103,6 +103,9 @@ def signup():
     new_user = User(email=email, password=hashed_password, is_active=is_active)
     db.session.add(new_user)
     db.session.commit()
+
+    # Initialize default budget categories for the new user
+    Budget.init_default_categories(new_user)
 
     session["user_id"] = new_user.id
 

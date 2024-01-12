@@ -46,14 +46,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			  }
 
 			   		
-					const resp = await fetch("https://studious-potato-4j7v6996rjq5cqpvv-3001.app.github.dev/api/token", opts)
+					const resp = await fetch("https://curly-broccoli-69456r569pxh479w-3001.app.github.dev/api/token", opts)
 				    if(resp.status !== 200){
 					  alert('There has been an error!');
 					  return false;
 					}
 			        
 					const data = await resp.json();
-					console.log("JWT Token: ", data.access_token);
 					sessionStorage.setItem("token", data.access_token);
 					setStore({ token: data.access_token })
 					return true;
@@ -75,7 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			  }
 
 			    try {
-					const resp = await fetch("https://studious-potato-4j7v6996rjq5cqpvv-3001.app.github.dev/api/signup", opts)
+					const resp = await fetch("https://curly-broccoli-69456r569pxh479w-3001.app.github.dev/api/signup", opts)
 				    if(resp.status !== 200){
 					  alert('There has been an error!');
 					  return false;
@@ -99,7 +98,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				try{
 					// fetching data from the backend
-					const resp = await fetch("https://studious-potato-4j7v6996rjq5cqpvv-3001.app.github.dev/api/hello", opts)
+					const resp = await fetch("https://curly-broccoli-69456r569pxh479w-3001.app.github.dev/api/hello", opts)
 					const data = await resp.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
@@ -119,7 +118,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				try{
 					// fetching data from the backend
-					const resp = await fetch("https://studious-potato-4j7v6996rjq5cqpvv-3001.app.github.dev/api/private", opts)
+					const resp = await fetch("https://curly-broccoli-69456r569pxh479w-3001.app.github.dev/dashboard", opts)
 					const data = await resp.json()
 					setStore({ user: data.message })
 					// don't forget to return something, that is how the async resolves
