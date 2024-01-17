@@ -6,9 +6,11 @@ import Col from 'react-bootstrap/Col';
 import NavbarLeft from "../component/navbarLeft";
 import CenterContent from "../component/centerContent";
 import RightContent from "../component/rightContent"
+import Transactions from "../component/transactions";
 
-export const Dashboard = () => {
+export const Accounts = () => {
   const { store, actions } = useContext(Context);
+
 
   return (
    
@@ -19,7 +21,7 @@ export const Dashboard = () => {
                   <NavbarLeft />
                 </Col>
                 <Col className="main-column">
-                  <CenterContent />
+                  <Transactions />
                 </Col>
                 <Col xs lg="3" className="right-column">
                   <RightContent />
@@ -32,4 +34,4 @@ export const Dashboard = () => {
   );
 }
 
-export default Dashboard;
+export default Accounts;
