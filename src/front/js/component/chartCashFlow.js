@@ -1,43 +1,44 @@
 import React, { useContext, useEffect } from "react";
+import { Context } from "../store/appContext";
 import { Chart } from 'react-google-charts';
 
 function ChartCashFlow() {
-    const temperatureData = [
-        ['Month', 'Top'],
-        ['May', 6550],
-        ['June', 5870],
-        ['July', 3689],
-        ['August', 7490],
-        ['September', 9820]
-    ];
+    const { store, actions } = useContext(Context);
 
+    useEffect(() => {
+		if(store.token && store.token!="" && store.token!=undefined)
+			 actions.getTransactions();
+	}, [store.token])
+
+    console.log("Transactions: ", store.transactions)
+
+    const data = [
+        [
+          "Month",
+          "Income",
+          "Expenses",
+          "Average",
+        ],
+        ["November", 1265, 938, 1101],
+        ["December", 2335, 1120, 1727],
+        ["January", 1840, 674, 1257],
+      ];
+      
     const options = {
-      title: 'Net cash flow over the recent months',
-      backgroundColor: '#fff',
-      hAxis: {
-          title: 'Month',
-      },
-      vAxis: {
-          title: 'Dollar amount $',
-      },
-      lineWidth: 10,
-      colors: ['#61B842'],
-      lineWidth: 2,
-      pointSize: 6,
-      animation: {
-          startup: true,
-          duration: 1000,
-          easing: 'out',
-      },
-  };
+        seriesType: "bars",
+        series: { 2: { type: "line" } },
+        colors: ['#85A47C', '#C8423A', '#4C5677']
+      };
     
     return (
         <div className='py-10'>
-            <Chart
-                chartType="LineChart"
-                data={temperatureData}
+             <Chart
+                chartType="ComboChart"
+                width="100%"
+                height="350px"
+                data={data}
                 options={options}
-            />
+              />
         </div>
     )
 }
