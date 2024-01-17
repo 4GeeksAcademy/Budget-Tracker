@@ -5,6 +5,29 @@
 html, body {
   height: 100%;
   background-color: #F1F1F1;
+  color: #081426;
+}
+a {
+  text-decoration: none;
+}
+
+.red-numbers {
+  color: #C8423A;
+
+}
+
+.green-numbers {
+  color: #85A47C ;
+
+}
+
+.category {
+  font-weight: bold;
+  
+}
+
+.description {
+  color: grey;
 }
 
 .navbar-style {
@@ -101,6 +124,7 @@ html, body {
 
   .center-container {
     margin-top: 100px;
+    max-width: 850px;
   }
 
   .yellow {
@@ -121,6 +145,14 @@ html, body {
     border-color: #EDBEAF;
   }
 
+  .center-item-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+
+  }
+
   
 
    /* Right Column Elements */
@@ -128,9 +160,6 @@ html, body {
 
   .right-column {
     background-color: #F1F1F1!important;
-    border: dotted;
-    border-width: 1px;
-    border-color: #081426;
     color: #081426;
     margin-top: 50px;
     margin-bottom: 50px;

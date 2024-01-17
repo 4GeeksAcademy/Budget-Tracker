@@ -1,20 +1,12 @@
 const getState = ({ getStore, getActions, setStore }) => {
+	const apiUrl='https://reimagined-space-guacamole-r4g6wvvwx777fp6v-3001.app.github.dev/'
 	return {
 		store: {
-			user: null,
+			user_info: null,
 			token: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			balances: [],
+			transactions: [],
+			
 		},
 
 		actions: {
@@ -42,11 +34,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					body: JSON.stringify({
 						  "email": email,
 						  "password": password
-					})
+					}),
+					
 			  }
 
 			   		
-					const resp = await fetch("https://curly-broccoli-69456r569pxh479w-3001.app.github.dev/api/token", opts)
+					const resp = await fetch(`${apiUrl}/api/token/`, opts)
 				    if(resp.status !== 200){
 					  alert('There has been an error!');
 					  return false;
@@ -74,7 +67,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			  }
 
 			    try {
-					const resp = await fetch("https://curly-broccoli-69456r569pxh479w-3001.app.github.dev/api/signup", opts)
+					const resp = await fetch(`${apiUrl}/api/signup`, opts)
 				    if(resp.status !== 200){
 					  alert('There has been an error!');
 					  return false;
@@ -98,7 +91,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				try{
 					// fetching data from the backend
-					const resp = await fetch("https://curly-broccoli-69456r569pxh479w-3001.app.github.dev/api/hello", opts)
+					const resp = await fetch(`${apiUrl}/api/hello`, opts)
 					const data = await resp.json()
 					setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
@@ -108,7 +101,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getUser: async () => {
+			getBalances: async () => {
 				const store = getStore();
 				const opts = {
 					headers: {
@@ -118,31 +111,67 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				try{
 					// fetching data from the backend
-					const resp = await fetch("https://curly-broccoli-69456r569pxh479w-3001.app.github.dev/dashboard", opts)
+					const resp = await fetch(`${apiUrl}/api/get_account_balances`, opts)
 					const data = await resp.json()
-					setStore({ user: data.message })
+					setStore({ balances: data })
 					// don't forget to return something, that is how the async resolves
 					return data;
 				}catch(error){
-					console.log("Error loading message from backend", error)
+					console.log("Error loading balances", error)
 				}
 			},
 
-
-			changeColor: (index, color) => {
-				//get the store
+			getTransactions: async () => {
 				const store = getStore();
+				const opts = {
+					headers: {
+						Authorization: "Bearer " + store.token
+					}
+				};
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+				try{
+					// fetching data from the backend
+					const resp = await fetch(`${apiUrl}/api/get_user_transactions`, opts)
+					const data = await resp.json()
+					setStore({ transactions: data })
+					// don't forget to return something, that is how the async resolves
+					return data;
+				}catch(error){
+					console.log("Error loading balances", error)
+				}
+			},
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
+			getUser: async () => {
+				const store = getStore();
+				const opts = {
+				  headers: {
+					Authorization: "Bearer " + store.token
+				  }
+				};
+			  
+				try {
+				  // Fetching data from the backend
+				  const resp = await fetch(`${apiUrl}/get_user_info`, opts);
+			  
+				  if (!resp.ok) {
+					// Handle non-OK responses (e.g., 404, 500)
+					console.error(`Error loading user info. Status: ${resp.status}`);
+					return null; // or handle it in a way that suits your application
+				  }
+			  
+				  const data = await resp.json();
+				  setStore({ user_info: data });
+			  
+				  // Don't forget to return something; this is how the async function resolves
+				  return data;
+				} catch (error) {
+				  console.error("Error loading user info", error);
+				  return null; // or handle it in a way that suits your application
+				}
+			  },
+
+
+			
 		}
 	};
 };

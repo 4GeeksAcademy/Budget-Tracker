@@ -8,11 +8,11 @@ from datetime import datetime, timedelta, timezone
 from flask_migrate import Migrate
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Budget
+from api.models import db, User, Budget, Account
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
+from flask_jwt_extended import create_access_token, JWTManager
 
 # from models import Person
 
@@ -20,12 +20,13 @@ ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 bcrypt = Bcrypt(app)
 app.url_map.strict_slashes = False
 
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
 # database condiguration
@@ -104,8 +105,9 @@ def signup():
     db.session.add(new_user)
     db.session.commit()
 
-    # Initialize default budget categories for the new user
+    # Initialize defaults for the new user
     Budget.init_default_categories(new_user)
+    Account.init_default_accounts(new_user)
 
     session["user_id"] = new_user.id
 
