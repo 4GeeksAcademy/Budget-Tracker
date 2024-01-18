@@ -91,7 +91,7 @@ const renderPaginationButtons = () => {
             </Row>
                    
             <Row>
-                     <div className="center-item-container">
+                     <div className="center-item-container transactions">
                         <div className="right-items">
                           <h5>Transactions</h5>
                           <hr/>
@@ -113,11 +113,9 @@ const renderPaginationButtons = () => {
                             
                     </Stack>
                   </div>
-                  <div>
-   {renderPaginationButtons()}
-</div>
+                  <div className="pagination-buttons">{renderPaginationButtons()}</div>
               </div>
-                  
+              
             </Row>
 
             <Row>

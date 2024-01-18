@@ -127,6 +127,16 @@ a {
     max-width: 850px;
   }
 
+  .transactions {
+    position: relative;
+    height: 430px;
+  }
+
+  .pagination-buttons {
+    position: absolute; 
+    bottom: 25px;
+  }
+
   .yellow {
     background-color: #F4ECDA;
     border: solid;
