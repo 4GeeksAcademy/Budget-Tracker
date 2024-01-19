@@ -5,14 +5,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import ChartCashFlow from "./chartCashFlow";
+import AccountButtons from "./accountButtons";
 
 export const CenterContent = () => {
   const { store, actions } = useContext(Context);
-
-	useEffect(() => {
-		if(store.token && store.token!="" && store.token!=undefined)
-			 actions.getBalances();
-	}, [store.token])
 
   useEffect(() => {
 		if(store.token && store.token!="" && store.token!=undefined)
@@ -31,32 +27,8 @@ export const CenterContent = () => {
 
     <>
  <Container className="center-container">
-            <Row>
-                <Col>
-                      <div className="right-containers yellow">
-                        <div className="right-items">
-                          <h3>$ {formatMoney(store.balances?.Cash)}</h3>
-                          <span>CASH</span>
-                        </div>
-                    </div>
-                </Col>
-                <Col>
-                      <div className="right-containers red">
-                        <div className="right-items">
-                          <h3>$ {formatMoney(store.balances?.Credit)}</h3>
-                          <span>CREDIT CARDS</span>
-                        </div>
-                    </div>
-                </Col>
-                <Col>
-                      <div className="right-containers green">
-                        <div className="right-items">
-                          <h3>$ {formatMoney(store.balances?.Savings)}</h3>
-                          <span>SAVINGS</span>
-                        </div>
-                    </div>
-                </Col>
-            </Row>
+           
+            <AccountButtons />
                    
             <Row>
                 <div className="center-item-container">

@@ -1,5 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	const apiUrl='https://reimagined-space-guacamole-r4g6wvvwx777fp6v-3001.app.github.dev/'
+	const apiUrl='https://reimagined-space-guacamole-r4g6wvvwx777fp6v-3001.app.github.dev'
 	return {
 		store: {
 			user_info: null,
@@ -120,6 +120,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading balances", error)
 				}
 			},
+
+			updateCashBalance: async (updateAmount) => {
+				const store = getStore();
+				const opts = {
+				  method: "PUT",
+				  headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + store.token
+				  },
+				  body: JSON.stringify({ "update_amount": updateAmount })
+  				};
+				
+			
+				try {
+				  // Make a request to update the cash balance
+				  const resp = await fetch(`${apiUrl}/api/update_cash_balance`, opts);
+				  const data = await resp.json();
+			
+				  const updatedCashBalance = data.updatedCashBalance;
+			
+				  setStore((prevState) => ({
+					balances: {
+					  ...prevState.balances,
+					  Cash: updatedCashBalance
+					}
+				  }));
+			
+				  // Return the updated balance if needed
+				  return updatedCashBalance;
+				} catch (error) {
+				  console.error("Error updating cash balance", error);
+				  throw error;
+				}
+			  },
 
 			getTransactions: async () => {
 				const store = getStore();

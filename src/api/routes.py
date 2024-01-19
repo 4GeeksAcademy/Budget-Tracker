@@ -75,9 +75,35 @@ def get_account_balances():
         return jsonify(account_balances)
     else:
         return jsonify({"error": "User not found"}), 404
+    
+@api.route('/update_cash_balance', methods=['PUT'])
+@jwt_required()
+def update_cash_balance():
+    current_user_email = get_jwt_identity()
 
-if __name__ == '__main__':
-    api.run(debug=True)
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+        cash_account = next((account for account in user.accounts if account.account_type == 'Cash'), None)
+
+        if cash_account:
+            try:
+                # Get the amount to update from the request data
+                update_amount = float(request.json.get('update_amount'))
+
+                # Update the cash balance
+                cash_account.balance += update_amount
+                db.session.commit()
+
+                return jsonify({"message": "Cash balance updated successfully",
+                                "updatedCashBalance": cash_account.balance})
+            except ValueError:
+                return jsonify({"error": "Invalid update amount. Must be a valid number"}), 400
+        else:
+            return jsonify({"error": "Cash account not found"}), 404
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
 
 @api.route('get_user_transactions', methods=['GET'])
 @jwt_required()
