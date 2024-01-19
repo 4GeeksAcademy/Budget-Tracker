@@ -15,7 +15,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
-    if (token == null) {
+    if (token === null) {
       navigate('/login');
     } else {
       actions.syncToken(token);
@@ -27,9 +27,6 @@ export const Dashboard = () => {
 		if(store.token && store.token!="" && store.token!=undefined)
 			 actions.getUser();
 	}, [store.token])
-
-  console.log("User:", store.user_info);
-
 
   return (
    
