@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,12 +11,17 @@ import { useNavigate } from 'react-router-dom';
 export const Dashboard = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (store.token == null) {
+    const token = sessionStorage.getItem('token');
+    if (token == null) {
       navigate('/login');
+    } else {
+      actions.syncToken(token);
     }
-  }, [store.token]);
+    setIsLoading(false);
+  }, []);
 
 
   return (
