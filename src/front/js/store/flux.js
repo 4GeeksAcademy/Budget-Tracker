@@ -53,13 +53,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				
 			},
 
-			signup: async (email, password) => {
+			signup: async (firstName, lastName, email, password) => {
 				const opts = {
 					method: 'POST',
 					headers: {
 						  "Content-Type": "application/json"
 					},
 					body: JSON.stringify({
+						  "firstName": firstName,
+						  "lastName": lastName,
 						  "email": email,
 						  "password": password,
 						  "is_active": false

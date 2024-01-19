@@ -9,12 +9,14 @@ import Col from 'react-bootstrap/Col';
 
 export const Signup = () => {
       const { store, actions } = useContext(Context);
+      const [firstName, setFirstName] = useState("");
+      const [lastName, setLastName] = useState("");
       const [email, setEmail] = useState("");
       const [password, setPassword] = useState("");
       const navigate = useNavigate();
 
       const handleSubmit = () => {
-            actions.signup(email, password).then(() => {
+            actions.signup(firstName, lastName, email, password).then(() => {
                   navigate("/login");
             })
             
@@ -28,6 +30,18 @@ export const Signup = () => {
               <Col md="auto" className="text-center">
                      <div>
                         <h1 className="mb-4">Register</h1>
+
+                              <Form.Group className="mb-3" controlId="name">
+                                    <Form.Control type="name" placeholder="Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                                    <Form.Text className="text-muted">
+                                    </Form.Text>
+                              </Form.Group>
+
+                              <Form.Group className="mb-3" controlId="name">
+                                    <Form.Control type="last_name" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                                    <Form.Text className="text-muted">
+                                    </Form.Text>
+                              </Form.Group>
                        
                               <Form.Group className="mb-3" controlId="email">
                                     <Form.Control type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
