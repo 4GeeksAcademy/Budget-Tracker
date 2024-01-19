@@ -27,9 +27,12 @@ export const CenterContent = () => {
 
     <>
  <Container className="center-container">
-           
+            <div className="text-center welcome">
+              <span>
+                Welcome to your dashboard {store.user_info ? store.user_info.firstName : 'Loading...'}
+              </span>
+            </div>
             <AccountButtons />
-                   
             <Row>
                 <div className="center-item-container">
                   <div className="right-items">

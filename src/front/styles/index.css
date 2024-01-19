@@ -122,6 +122,20 @@ a {
 
   /* Center Column Elements */
 
+  .welcome {
+    margin-bottom: 30px;
+    margin-top: -65px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background-color: #CD554F;
+    border-radius: 15px;
+    padding: 7px;
+  }
+
   .center-container {
     margin-top: 100px;
     max-width: 850px;

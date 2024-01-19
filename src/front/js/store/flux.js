@@ -187,7 +187,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			  
 				try {
 				  // Fetching data from the backend
-				  const resp = await fetch(`${apiUrl}/get_user_info`, opts);
+				  const resp = await fetch(`${apiUrl}/api/get_user_info`, opts);
 			  
 				  if (!resp.ok) {
 					// Handle non-OK responses (e.g., 404, 500)

@@ -23,6 +23,13 @@ export const Dashboard = () => {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+		if(store.token && store.token!="" && store.token!=undefined)
+			 actions.getUser();
+	}, [store.token])
+
+  console.log("User:", store.user_info);
+
 
   return (
    
