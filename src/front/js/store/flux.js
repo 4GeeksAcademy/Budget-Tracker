@@ -1,5 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	const apiUrl='https://reimagined-space-guacamole-r4g6wvvwx777fp6v-3001.app.github.dev'
+	const apiUrl='https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev'
 	return {
 		store: {
 			user_info: null,
@@ -156,6 +156,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 				  throw error;
 				}
 			  },
+
+			  updateSavingsBalance: async (updateAmount) => {
+				const store = getStore();
+				const opts = {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + store.token
+					},
+					body: JSON.stringify({ "update_amount": updateAmount })
+				};
+			
+				try {
+					// Make a request to update the savings balance
+					const resp = await fetch(`${apiUrl}/api/update_savings_balance`, opts);
+					const data = await resp.json();
+			
+					const updatedSavingsBalance = data.updatedSavingsBalance;
+			
+					setStore((prevState) => ({
+						balances: {
+							...prevState.balances,
+							Savings: updatedSavingsBalance
+						}
+					}));
+			
+					// Return the updated balance if needed
+					return updatedSavingsBalance;
+				} catch (error) {
+					console.error("Error updating savings balance", error);
+					throw error;
+				}
+			},  
 
 			getTransactions: async () => {
 				const store = getStore();

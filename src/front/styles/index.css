@@ -154,7 +154,7 @@ a {
 
   .floating-container {
     position: absolute;
-    width: 150px;
+    width: 180px;
     top: 20px; /* Adjust as needed */
     right: 0;
     background-color: #F1F1F1!important; /* Change to the color you want */
