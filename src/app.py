@@ -26,7 +26,7 @@ app.url_map.strict_slashes = False
 
 # Setup the Flask-JWT-Extended extension
 app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1)
 jwt = JWTManager(app)
 
 # database condiguration
@@ -91,6 +91,8 @@ def create_token():
 
 @app.route("/api/signup", methods=["POST"])
 def signup():
+    firstName = request.json["firstName"]
+    lastName = request.json["lastName"]
     email = request.json["email"]
     password = request.json["password"]
     is_active = False
@@ -101,7 +103,7 @@ def signup():
         return jsonify({"Error": "Email already taken"}), 409
     
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    new_user = User(email=email, password=hashed_password, is_active=is_active)
+    new_user = User(firstName=firstName, lastName=lastName, email=email, password=hashed_password, is_active=is_active)
     db.session.add(new_user)
     db.session.commit()
 
@@ -113,6 +115,8 @@ def signup():
 
     return jsonify({
         "id": new_user.id,
+        "firstName": firstName,
+        "lastName": lastName,
         "email": new_user.email,
         "Active": is_active
     })

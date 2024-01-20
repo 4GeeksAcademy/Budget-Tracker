@@ -122,9 +122,55 @@ a {
 
   /* Center Column Elements */
 
+  .welcome {
+    margin-bottom: 30px;
+    margin-top: -65px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background-color: #081426;
+    border-radius: 15px;
+    padding: 7px;
+  }
+
   .center-container {
     margin-top: 100px;
     max-width: 850px;
+  }
+  
+  .account-items {
+    position: relative;
+  }
+
+  .icon-container {
+    position: absolute;
+    margin-top: -10px;
+    top: 0;
+    right: 0;
+  }
+
+  .floating-container {
+    position: absolute;
+    width: 150px;
+    top: 20px; /* Adjust as needed */
+    right: 0;
+    background-color: #F1F1F1!important; /* Change to the color you want */
+    border: 1px solid;
+    z-index: 1;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  .transactions {
+    position: relative;
+    height: 430px;
+  }
+
+  .pagination-buttons {
+    position: absolute; 
+    bottom: 25px;
   }
 
   .yellow {

@@ -6,8 +6,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
-    name = db.Column(db.String(50), nullable=True)
-    lastname = db.Column(db.String(50), nullable=True)
+    firstName = db.Column(db.String(50), nullable=True)
+    lastName = db.Column(db.String(50), nullable=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     budgets = db.relationship('Budget', backref='user', lazy=True)
     transactions = db.relationship('Transaction', backref='user', lazy=True)
@@ -21,8 +21,8 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "name": self.name,
-            "lastname": self.lastname,
+            "firstName": self.firstName,
+            "lastName": self.lastName,
             "budgets": [budget.serialize() for budget in self.budgets],
             "transactions": [transaction.serialize() for transaction in self.transactions],
             "accounts": [account.serialize() for account in self.accounts]
