@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Context } from "./store/appContext"; // Import the context
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home";
@@ -8,16 +9,20 @@ import { Signup } from "./pages/signup";
 import { Dashboard } from "./pages/dashboard";
 import { Accounts } from "./pages/accounts";
 import injectContext from "./store/appContext";
-
 import { Navbar } from "./component/navbar";
+import "../styles/DarkMode.css";
 
-//create your first component
 const Layout = () => {
-    //the basename is used when your project is published in a subdirectory and not in the root of the domain
-    // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
+    const { store } = useContext(Context); // Use the context to access the store
+
+    useEffect(() => {
+        // Toggle the 'dark-mode' class on the body element based on the isDarkMode state
+        document.body.classList.toggle('dark-mode', store.isDarkMode);
+    }, [store.isDarkMode]);
+
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
         <div>

@@ -76,6 +76,7 @@ a {
   }
 
   .dashboard-item {
+    cursor: pointer;
     padding: 10px 10px 10px 30px;
     margin-bottom: 30px;
     color: #F1F1F1;

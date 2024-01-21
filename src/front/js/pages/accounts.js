@@ -8,6 +8,7 @@ import RightContent from "../component/rightContent"
 import Transactions from "../component/transactions";
 import { useNavigate } from 'react-router-dom';
 
+
 export const Accounts = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();

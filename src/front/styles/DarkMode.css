@@ -1,0 +1,76 @@
+/* Dark Mode Styles */
+
+/* General Styles */
+html, body.dark-mode {
+    background-color: #121212; /* Dark background */
+    color: #E1E1E1; /* Lighter text color */
+  }
+  
+  body.dark-mode a {
+    color: #9AB3C8; /* Lighter link color */
+  }
+  
+  /* Specific Element Adjustments */
+  body.dark-mode .red-numbers {
+    color: #FF6B6B; /* Lighter shade of red for dark mode */
+  }
+  
+  body.dark-mode .green-numbers {
+    color: #A3D8AF; /* Lighter shade of green for dark mode */
+  }
+  
+  body.dark-mode .description {
+    color: #CCCCCC; /* Light grey for descriptions */
+  }
+  
+  body.dark-mode .navbar-style {
+    background-color: #0F3443!important; /* Darker shade for navbar */
+  }
+  
+  body.dark-mode .left-column {
+    background-color: #0F3443!important; /* Darker shade for left column */
+    color: #E1E1E1; /* Lighter text color for better readability */
+  }
+  
+  body.dark-mode .dashboard-item,
+  body.dark-mode .dashboard-item-active {
+    color: #9AB3C8; /* Adjusted text color for dashboard items */
+  }
+  
+  body.dark-mode .dashboard-item-active {
+    background-color: #1A3A4F; /* Darker background for active items */
+  }
+  
+  body.dark-mode .dashboard-item-active::before,
+  body.dark-mode .dashboard-item-active::after {
+    box-shadow: 0px -25px 0 0 #1A3A4F, 0px 25px 0 0 #1A3A4F; /* Adjusted box shadow */
+  }
+  
+  body.dark-mode .welcome {
+    background-color: #0F3443; /* Darker background for welcome */
+  }
+  
+  body.dark-mode .floating-container {
+    background-color: #1A3A4F!important; /* Darker background for floating container */
+  }
+  
+  body.dark-mode .center-item-container,
+  body.dark-mode .right-containers {
+    background-color: #1E293B; /* Darker background for center and right containers */
+  }
+  
+  body.dark-mode .yellow {
+    background-color: #B69F58; /* Adjusted yellow color for dark mode */
+  }
+  
+  body.dark-mode .green {
+    background-color: #3A5F41; /* Adjusted green color for dark mode */
+  }
+  
+  body.dark-mode .red {
+    background-color: #8B4343; /* Adjusted red color for dark mode */
+  }
+  
+  body.dark-mode .hr-nav {
+    background-color: #1A3A4F; /* Adjusted color for horizontal rule in navigation */
+  }

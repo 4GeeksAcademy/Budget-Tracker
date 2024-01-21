@@ -1,11 +1,12 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	const apiUrl='https://reimagined-space-guacamole-r4g6wvvwx777fp6v-3001.app.github.dev'
+	const apiUrl='https://studious-waffle-wr7w69jj4v4hjpq-3001.app.github.dev/'
 	return {
 		store: {
 			user_info: null,
 			token: null,
 			balances: [],
 			transactions: [],
+			isDarkMode: false,
 			
 		},
 
@@ -206,6 +207,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			  },
 
+              toggleDarkMode: () => {
+				const store = getStore();
+				const newIsDarkMode = !store.isDarkMode;
+				setStore({ isDarkMode: newIsDarkMode });
+			
+				// Use the new value directly
+				if (newIsDarkMode) {
+					document.body.classList.add("dark-mode");
+				} else {
+					document.body.classList.remove("dark-mode");
+				}
+			},
 
 			
 		}
