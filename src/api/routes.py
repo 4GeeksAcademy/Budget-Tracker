@@ -3,11 +3,11 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import Transaction, db, User
-from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from datetime import datetime
+import pytz
 
 api = Blueprint('api', __name__)
 
@@ -134,7 +134,7 @@ def update_savings_balance():
         return jsonify({"error": "User not found"}), 404
     
 
-@api.route('get_user_transactions', methods=['GET'])
+@api.route('/get_user_transactions', methods=['GET'])
 @jwt_required()
 def get_user_transactions():
     current_user_email = get_jwt_identity()
@@ -148,6 +148,40 @@ def get_user_transactions():
         serialized_transactions = [transaction.serialize() for transaction in transactions]
 
         return jsonify(serialized_transactions)
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
+@api.route('/post_user_transaction', methods=['POST'])
+@jwt_required()
+def post_user_transaction():
+    current_user_email = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+        data = request.get_json()
+
+         # Ensure the amount is always negative
+        amount = -abs(float(data['amount']))
+
+        # Convert date to local timezone
+        date = datetime.strptime(data['date'], "%Y-%m-%d")
+        local_tz = pytz.timezone('America/New_York')  # replace with your timezone
+        local_date = local_tz.localize(date)
+
+        new_transaction = Transaction(
+            user_id=user.id,
+            budget_id=data['budgetId'],
+            account_id=data['accountId'],
+            amount=amount,
+            description=data['description'],
+            date=local_date
+        )
+
+        db.session.add(new_transaction)
+        db.session.commit()
+
+        return jsonify(new_transaction.serialize()), 201
     else:
         return jsonify({"error": "User not found"}), 404
 

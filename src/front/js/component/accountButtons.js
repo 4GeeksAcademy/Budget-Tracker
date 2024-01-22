@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
+import { Modal, Button, Col, Row } from 'react-bootstrap';
 
 export const AccountButtons = () => {
   const { store, actions } = useContext(Context);
@@ -55,30 +53,33 @@ export const AccountButtons = () => {
              <Col>
               <div className="right-containers yellow">
                 <div className="account-items">
-                <div className="icon-container" id="cash" onClick={() => setShowUpdate(prevShowUpdate => !prevShowUpdate)}>
+                  <div className="icon-container" style={{ cursor: 'pointer' }} id="cash" onClick={() => setShowUpdate(prevShowUpdate => !prevShowUpdate)}>
                     <i className="fa-solid fa-ellipsis-vertical"></i>
                   </div>
                   <h3>$ {formatMoney(store.balances?.Cash)}</h3>
                   <span>CASH</span>
-                  {showUpdate && (
-                      <div className="floating-container yellow">
-                        <input
-                          className="w-100 mb-2"
-                          type="number"
-                          value={updateAmount}
-                          onChange={(e) => setUpdateAmount(e.target.value)}
-                          placeholder="0.00"
-                          onKeyDown={(event) => {
-                            if (event.key === 'Enter') {
-                              handleUpdateCashBalance();
-                            }
-                          }}
-                        />
-                        <Button className="me-2 px-3 w-100" variant="outline-success" size="sm" onClick={handleUpdateCashBalance}>
-                          Add Cash
-                        </Button>
-                      </div>
-                    )}
+                  <Modal size="sm" show={showUpdate} onHide={() => setShowUpdate(false)}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Update Cash Balance</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <input
+                        className="w-100 mb-2"
+                        type="number"
+                        value={updateAmount}
+                        onChange={(e) => setUpdateAmount(e.target.value)}
+                        placeholder="0.00"
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter') {
+                            handleUpdateCashBalance();
+                          }
+                        }}
+                      />
+                      <Button className="me-2 px-3 w-100" variant="outline-success" size="sm" onClick={handleUpdateCashBalance}>
+                        Add Cash
+                      </Button>
+                    </Modal.Body>
+                  </Modal>
                 </div>
               </div>
             </Col>
@@ -93,13 +94,21 @@ export const AccountButtons = () => {
                 <Col>
                   <div className="right-containers green">
                     <div className="account-items">
-                      <div className="icon-container" id="savings" onClick={() => setShowUpdateSavings(prevShowUpdateSavings => !prevShowUpdateSavings)}>
+                      <div 
+                        className="icon-container" 
+                        id="savings" 
+                        onClick={() => setShowUpdateSavings(prevShowUpdateSavings => !prevShowUpdateSavings)}
+                        style={{ cursor: 'pointer' }}
+                      >
                         <i className="fa-solid fa-ellipsis-vertical"></i>
                       </div>
                       <h3>$ {formatMoney(store.balances?.Savings)}</h3>
                       <span>SAVINGS</span>
-                      {showUpdateSavings && (
-                        <div className="floating-container green">
+                      <Modal show={showUpdateSavings} onHide={() => setShowUpdateSavings(false)} size="sm">
+                        <Modal.Header closeButton>
+                          <Modal.Title>Savings Balance</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
                           <input
                             className="w-100 mb-2"
                             type="number"
@@ -113,10 +122,10 @@ export const AccountButtons = () => {
                             }}
                           />
                           <Button className="me-2 px-3 w-100" variant="outline-success" size="sm" onClick={handleUpdateSavingsBalance}>
-                            Update Savings
+                            Update Savings Balance
                           </Button>
-                        </div>
-                      )}
+                        </Modal.Body>
+                      </Modal>
                     </div>
                   </div>
                 </Col>
