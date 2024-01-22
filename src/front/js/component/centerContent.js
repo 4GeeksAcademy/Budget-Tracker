@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import ChartCashFlow from "./chartCashFlow";
 import AccountButtons from "./accountButtons";
+import AddTransaction from "./addTransaction";
 
 export const CenterContent = () => {
   const { store, actions } = useContext(Context);
@@ -35,6 +36,7 @@ export const CenterContent = () => {
             <AccountButtons />
             <Row>
                 <div className="center-item-container">
+                  <AddTransaction />
                   <div className="right-items">
                     <h5>Recent Transactions</h5>
                     <hr/>

@@ -122,6 +122,10 @@ a {
 
   /* Center Column Elements */
 
+  .add-transaction {
+    float: right;
+  }
+
   .welcome {
     margin-bottom: 30px;
     margin-top: -65px;
@@ -163,6 +167,7 @@ a {
     padding: 20px;
     border-radius: 15px;
   }
+
   .transactions {
     position: relative;
     height: 430px;
