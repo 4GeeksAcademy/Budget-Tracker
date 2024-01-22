@@ -1,0 +1,127 @@
+/* Dark Mode Styles */
+
+/* General Styles */
+html, body.dark-mode {
+  background-color: #171717; /* Dark background */
+  color: #e1e1e1; /* Lighter text color for readability */
+}
+
+body.dark-mode .right-column {
+  background-color: black; /* Or any dark color you prefer */
+}
+
+body.dark-mode a {
+  color: #5599ff; /* A standard color for links in dark mode */
+}
+
+/* Specific Element Adjustments */
+body.dark-mode .red-numbers {
+  color: #ff6b6b; /* Lighter shade of red for dark mode */
+}
+
+body.dark-mode .green-numbers {
+  color: #a3d8af; /* Lighter shade of green for dark mode */
+}
+
+body.dark-mode .description {
+  color: #cccccc; /* Light grey for descriptions */
+}
+
+body.dark-mode .navbar-style {
+  background-color: #121212; /* Darker shade for navbar */
+}
+
+body.dark-mode .left-column {
+  background-color: #121212; /* Consistent background for sidebar */
+  color: #ffffff; /* White text for better readability */
+}
+
+body.dark-mode .dashboard-item,
+body.dark-mode .dashboard-item-active {
+  color: #ffffff; /* White text for items */
+}
+
+/* Ensure active items stand out */
+body.dark-mode .dashboard-item-active {
+  background-color: #2a2a2a; /* Slightly lighter background for active items */
+}
+
+/* Adjusted box shadow for active item indicators */
+body.dark-mode .dashboard-item-active::before,
+body.dark-mode .dashboard-item-active::after {
+  box-shadow: 0px -25px 0 0 #2a2a2a, 0px 25px 0 0 #2a2a2a;
+}
+
+/* Other container adjustments */
+body.dark-mode .welcome,
+body.dark-mode .floating-container,
+body.dark-mode .center-item-container,
+body.dark-mode .right-containers {
+  background-color: #1e1e1e; /* Dark grey background for containers */
+  color: #ffffff; /* White text */
+  border: 1px solid #333333; /* Subtle border for definition */
+}
+
+/* Specific colors for elements that need attention */
+body.dark-mode .yellow {
+  background-color: #b69f58; /* Adjusted yellow color for dark mode */
+}
+
+body.dark-mode .green {
+  background-color: #3a5f41; /* Adjusted green color for dark mode */
+}
+
+body.dark-mode .red {
+  background-color: #8b4343; /* Adjusted red color for dark mode */
+}
+
+body.dark-mode .hr-nav {
+  background-color: #333333; /* Adjusted color for horizontal rule in navigation */
+}
+
+/* Cursor for clickable items */
+.dashboard-item {
+cursor: pointer; /* This ensures the cursor changes to a pointer on hover */
+}
+
+body.dark-mode .container-fluid,
+body.dark-mode .row-wrapper,
+body.dark-mode .main-column,
+body.dark-mode .center-container {
+    background-color: black; 
+
+}
+
+body.dark-mode .dashboard-item-active {
+  position: relative;
+  background-color: #F1F1F1;
+  padding: 10px 10px 10px 30px;
+  margin-bottom: 30px;
+  color: #081426;
+  font-weight: 600;
+  border-radius: 20px 0px 0px 20px!important;
+}
+
+/* pseudo element */
+body.dark-mode .dashboard-item-active::before {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  right: 0px;
+  height: 50px;
+  width: 25px;
+  border-top-right-radius: 15px;
+  box-shadow: 0px -25px 0 0 #F1F1F1;
+}
+
+/* pseudo element */
+body.dark-mode .dashboard-item-active::after {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: 0px;
+  height: 50px;
+  width: 25px;
+  border-bottom-right-radius: 15px;
+  box-shadow: 0px 25px 0 0 #F1F1F1;
+}

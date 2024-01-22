@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			token: null,
 			balances: [],
 			transactions: [],
+			isDarkMode: false,
 			
 		},
 
@@ -285,6 +286,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			  },
 
+              toggleDarkMode: () => {
+				const store = getStore();
+				const newIsDarkMode = !store.isDarkMode;
+				setStore({ isDarkMode: newIsDarkMode });
+			
+				// Use the new value directly
+				if (newIsDarkMode) {
+					document.body.classList.add("dark-mode");
+				} else {
+					document.body.classList.remove("dark-mode");
+				}
+			},
 
 			
 		}

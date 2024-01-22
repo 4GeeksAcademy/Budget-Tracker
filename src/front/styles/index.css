@@ -31,7 +31,7 @@ a {
 }
 
 .navbar-style {
-  background-color: #081426!important;
+  background-color: #081426;
   min-height: 5vh;
 }
 
@@ -53,7 +53,7 @@ a {
   }
 
   .main-column {
-    background-color: #F1F1F1!important;
+    background-color: #F1F1F1;
   }
 
   .row-wrapper {
@@ -64,8 +64,8 @@ a {
    /* Left Column Elements */
 
   .left-column {
-    background-color: #F1F1F1!important;
-    background: #081426!important;
+    background-color: #F1F1F1;
+    background: #081426;
     color: white;
     width: 200px!important;
     margin-top: 50px;
@@ -76,6 +76,7 @@ a {
   }
 
   .dashboard-item {
+    cursor: pointer;
     padding: 10px 10px 10px 30px;
     margin-bottom: 30px;
     color: #F1F1F1;
@@ -161,7 +162,7 @@ a {
     width: 180px;
     top: 20px; /* Adjust as needed */
     right: 0;
-    background-color: #F1F1F1!important; /* Change to the color you want */
+    background-color: #F1F1F1; /* Change to the color you want */
     border: 1px solid;
     z-index: 1;
     padding: 20px;
@@ -210,7 +211,7 @@ a {
 
 
   .right-column {
-    background-color: #F1F1F1!important;
+    background-color: #F1F1F1;
     color: #081426;
     margin-top: 50px;
     margin-bottom: 50px;

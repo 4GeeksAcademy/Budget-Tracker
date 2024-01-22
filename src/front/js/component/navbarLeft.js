@@ -6,6 +6,11 @@ function NavbarLeft() {
   const { store, actions } = useContext(Context);
 	const handleLogout = () => {
 		actions.logout();
+
+    const toggleDarkMode = () => {
+      actions.toggleDarkMode();
+  };
+
   };
 
 
@@ -35,6 +40,10 @@ function NavbarLeft() {
           <i className="fa-solid fa-gear icon"></i>
           <span>Settings</span>
       </div>
+      <div className='dashboard-item' onClick={actions.toggleDarkMode}>
+            <i className="fa-solid fa-moon icon"></i>
+            <span>Dark Mode</span>
+        </div>
       <hr className='hr-nav'/>
       <div className='dashboard-item'>
           <i className="fa-solid fa-question icon"></i>
