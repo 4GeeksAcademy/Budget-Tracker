@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
 import AccountButtons from "./accountButtons";
+import AddTransaction from "./addTransaction";
 
 export const Transactions = () => {
   const { store, actions } = useContext(Context);
@@ -64,6 +65,7 @@ const renderPaginationButtons = () => {
 
                 <Row>
                      <div className="center-item-container transactions">
+                      <AddTransaction />
                         <div className="right-items">
                           <h5>Transactions</h5>
                           <hr/>

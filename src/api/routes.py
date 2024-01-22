@@ -161,9 +161,6 @@ def post_user_transaction():
     if user:
         data = request.get_json()
 
-         # Ensure the amount is always negative
-        amount = -abs(float(data['amount']))
-
         # Convert date to local timezone
         date = datetime.strptime(data['date'], "%Y-%m-%d")
         local_tz = pytz.timezone('America/New_York')  # replace with your timezone
@@ -173,8 +170,9 @@ def post_user_transaction():
             user_id=user.id,
             budget_id=data['budgetId'],
             account_id=data['accountId'],
-            amount=amount,
+            amount=data['amount'],
             description=data['description'],
+            income_expense=data['income_expense'],
             date=local_date
         )
 

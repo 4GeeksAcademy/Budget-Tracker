@@ -256,6 +256,55 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			addIncome: async (transaction) => {
+				const store = getStore();
+			
+				// Validate transaction data
+				if (!transaction || typeof transaction !== 'object') {
+					throw new Error('Transaction data is missing or not an object');
+				}
+			
+				const requiredFields = ['budgetId', 'accountId', 'amount', 'date'];
+				for (let field of requiredFields) {
+					if (!transaction.hasOwnProperty(field)) {
+						throw new Error(`Missing required field: ${field}`);
+					}
+				}
+			
+				// Ensure the amount is positive
+				transaction.amount = Math.abs(transaction.amount);
+			
+				const opts = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'Bearer ' + store.token,
+					},
+					body: JSON.stringify(transaction),
+				};
+			
+				try {
+					const resp = await fetch(`${apiUrl}/api/post_user_transaction`, opts);
+					if (!resp.ok) {
+						const error = new Error(`Request failed with status ${resp.status}: ${resp.statusText}`);
+						error.response = resp;
+						throw error;
+					}
+					const data = await resp.json();
+					setStore({ transactions: [...store.transactions, data] });
+					return data;
+				} catch (error) {
+					console.error('Error posting transaction', error);
+					// If the response is available, try to get more error details from the response body
+					if (error.response) {
+						error.response.text().then(text => {
+							console.error('Server response:', text);
+						});
+					}
+					throw error;
+				}
+			},
+
 			getUser: async () => {
 				const store = getStore();
 				const opts = {
