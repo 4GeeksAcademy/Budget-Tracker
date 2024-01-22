@@ -1,5 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	const apiUrl='https://studious-waffle-wr7w69jj4v4hjpq-3001.app.github.dev/'
+	const apiUrl='https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev'
 	return {
 		store: {
 			user_info: null,
@@ -158,6 +158,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			  },
 
+			  updateSavingsBalance: async (updateAmount) => {
+				const store = getStore();
+				const opts = {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + store.token
+					},
+					body: JSON.stringify({ "update_amount": updateAmount })
+				};
+			
+				try {
+					// Make a request to update the savings balance
+					const resp = await fetch(`${apiUrl}/api/update_savings_balance`, opts);
+					const data = await resp.json();
+			
+					const updatedSavingsBalance = data.updatedSavingsBalance;
+			
+					setStore((prevState) => ({
+						balances: {
+							...prevState.balances,
+							Savings: updatedSavingsBalance
+						}
+					}));
+			
+					// Return the updated balance if needed
+					return updatedSavingsBalance;
+				} catch (error) {
+					console.error("Error updating savings balance", error);
+					throw error;
+				}
+			},  
+
 			getTransactions: async () => {
 				const store = getStore();
 				const opts = {
@@ -175,6 +208,52 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return data;
 				}catch(error){
 					console.log("Error loading balances", error)
+				}
+			},
+
+			addExpense: async (transaction) => {
+				const store = getStore();
+			
+				// Validate transaction data
+				if (!transaction || typeof transaction !== 'object') {
+					throw new Error('Transaction data is missing or not an object');
+				}
+			
+				const requiredFields = ['budgetId', 'accountId', 'amount', 'date'];
+				for (let field of requiredFields) {
+					if (!transaction.hasOwnProperty(field)) {
+						throw new Error(`Missing required field: ${field}`);
+					}
+				}
+			
+				const opts = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'Bearer ' + store.token,
+					},
+					body: JSON.stringify(transaction),
+				};
+			
+				try {
+					const resp = await fetch(`${apiUrl}/api/post_user_transaction`, opts);
+					if (!resp.ok) {
+						const error = new Error(`Request failed with status ${resp.status}: ${resp.statusText}`);
+						error.response = resp;
+						throw error;
+					}
+					const data = await resp.json();
+					setStore({ transactions: [...store.transactions, data] });
+					return data;
+				} catch (error) {
+					console.error('Error posting transaction', error);
+					// If the response is available, try to get more error details from the response body
+					if (error.response) {
+						error.response.text().then(text => {
+							console.error('Server response:', text);
+						});
+					}
+					throw error;
 				}
 			},
 

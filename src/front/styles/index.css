@@ -123,6 +123,10 @@ a {
 
   /* Center Column Elements */
 
+  .add-transaction {
+    float: right;
+  }
+
   .welcome {
     margin-bottom: 30px;
     margin-top: -65px;
@@ -155,7 +159,7 @@ a {
 
   .floating-container {
     position: absolute;
-    width: 150px;
+    width: 180px;
     top: 20px; /* Adjust as needed */
     right: 0;
     background-color: #F1F1F1; /* Change to the color you want */
@@ -164,6 +168,7 @@ a {
     padding: 20px;
     border-radius: 15px;
   }
+
   .transactions {
     position: relative;
     height: 430px;
