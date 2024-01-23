@@ -36,10 +36,14 @@ function NavbarLeft() {
         </div>
       )}
       </NavLink>
-      <div className='dashboard-item'>
+      <NavLink to="/settings">
+      {({ isActive }) => (
+        <div className={isActive ? 'dashboard-item-active' : 'dashboard-item'}>
           <i className="fa-solid fa-gear icon"></i>
-          <span>Settings</span>
-      </div>
+            <span>Settings</span>
+        </div>
+      )}
+      </NavLink>
       <div className='dashboard-item' onClick={actions.toggleDarkMode}>
             <i className="fa-solid fa-moon icon"></i>
             <span>Dark Mode</span>

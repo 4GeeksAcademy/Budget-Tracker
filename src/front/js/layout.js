@@ -8,6 +8,7 @@ import { Login } from "./pages/login";
 import { Signup } from "./pages/signup";
 import { Dashboard } from "./pages/dashboard";
 import { Accounts } from "./pages/accounts";
+import { Settings } from './pages/settings'
 import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import "../styles/DarkMode.css";
@@ -35,6 +36,7 @@ const Layout = () => {
                         <Route element={<Signup />} path="/signup/" />
                         <Route element={<Dashboard />} path="/dashboard/" />
                         <Route element={<Accounts />} path="/accounts/" />
+                        <Route element={<Settings />} path="/settings/" />
                     </Routes>
                  </ScrollToTop>
             </BrowserRouter>
