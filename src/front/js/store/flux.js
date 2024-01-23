@@ -1,5 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	const apiUrl='https://redesigned-space-chainsaw-9w6g9r965wx3665-3001.app.github.dev'
+	const apiUrl='https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev/'
 	return {
 		store: {
 			user_info: null,
