@@ -54,10 +54,10 @@ const AddTransaction = () => {
     return (
         <div className='add-transaction'>
             <ButtonGroup className="mb-2">
-                <Button variant="outline-danger" size="sm" onClick={handleShow}>
+                <Button variant="danger" size="sm" onClick={handleShow}>
                     Add Expense
                 </Button>
-                <Button variant="outline-success" size="sm" onClick={handleShowIncomeModal}>
+                <Button variant="success" size="sm" onClick={handleShowIncomeModal}>
                     Add Income
                 </Button>
             </ButtonGroup>
