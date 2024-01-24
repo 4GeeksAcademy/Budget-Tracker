@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
 import AccountButtons from "./accountButtons";
+import AddTransaction from "./addTransaction";
+import AddAccount from "./addAccount";
 
 export const Transactions = () => {
   const { store, actions } = useContext(Context);
@@ -60,12 +62,13 @@ const renderPaginationButtons = () => {
     <>
  <Container className="center-container">
 
-                <AccountButtons />
+               
 
                 <Row>
                      <div className="center-item-container transactions">
+                      <AddTransaction />
                         <div className="right-items">
-                          <h5>Transactions</h5>
+                          <h5>All Transactions</h5>
                           <hr/>
                           <Stack gap={0}>
                           {currentTransactions.map(transaction => (
@@ -91,14 +94,7 @@ const renderPaginationButtons = () => {
             </Row>
 
             <Row>
-                     <div className="center-item-container">
-                        <div className="right-items">
-                          <h5>Private</h5>
-                          <hr/>
-                          {store.message || "Login to reveal the secret message!"}
-                        </div>
-                    </div>
-                  
+                  <AddAccount />
             </Row>
 
            

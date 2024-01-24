@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Stack from 'react-bootstrap/Stack';
+import { Button, Row, Col, Stack } from "react-bootstrap";
 import ChartCashFlow from "./chartCashFlow";
 import AccountButtons from "./accountButtons";
 import AddTransaction from "./addTransaction";
+import { NavLink } from "react-router-dom";
 
 export const CenterContent = () => {
   const { store, actions } = useContext(Context);
@@ -35,7 +34,7 @@ export const CenterContent = () => {
             </div>
             <AccountButtons />
             <Row>
-                <div className="center-item-container">
+                <div className="center-item-container transactions">
                   <AddTransaction />
                   <div className="right-items">
                     <h5>Recent Transactions</h5>
@@ -60,6 +59,9 @@ export const CenterContent = () => {
                       
                     </Stack>
                   </div>
+                  <NavLink to="/accounts">
+                    <Button variant="outline-secondary" size="sm" style={{float: 'right'}}>See all</Button>
+                  </NavLink>
               </div>
             </Row>
 

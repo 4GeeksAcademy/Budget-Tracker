@@ -4,6 +4,8 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 import os
 from flask import Flask, request, jsonify, url_for, send_from_directory, session
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 from datetime import datetime, timedelta, timezone
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -140,6 +142,23 @@ def login():
         "id": user.id,
         "email": user.email
     })
+
+@app.route('/api/update_password', methods=['POST'])
+@jwt_required()
+def update_password():
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(email=current_user).first()
+    old_password = request.json['old_password']
+    new_password = request.json['new_password']
+
+    if not bcrypt.check_password_hash(user.password, old_password):
+        return jsonify({"error": "Wrong password!"}), 401
+    else:
+        hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        return jsonify({ "message": "Updated Password"}), 200
+
 
 
 @app.route('/<path:path>', methods=['GET'])
