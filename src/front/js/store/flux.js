@@ -419,7 +419,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
 
-        const res = await fetch(fetch(`${apiUrl}/api/update_password`, opts));
+        const res = await fetch(`${apiUrl}/api/update_password`, opts);
         const data = await res.json();
 
         return data;
