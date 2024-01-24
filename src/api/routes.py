@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import Transaction, db, User
+from api.models import Transaction, db, User, Account
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -180,6 +180,29 @@ def post_user_transaction():
         db.session.commit()
 
         return jsonify(new_transaction.serialize()), 201
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
+@api.route('/add_new_account', methods=['POST'])
+@jwt_required()
+def add_new_account():
+    current_user_email = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+        data = request.get_json()
+
+        new_account = Account(
+            user_id=user.id,
+            account_type=data['account_type'],
+            balance=data['balance']
+        )
+
+        db.session.add(new_account)
+        db.session.commit()
+
+        return jsonify(new_account.serialize()), 201
     else:
         return jsonify({"error": "User not found"}), 404
 

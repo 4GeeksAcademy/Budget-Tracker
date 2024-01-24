@@ -335,6 +335,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			  },
 
+			  addNewAccount: async (accountType, balance) => {
+				const store = getStore();
+				const opts = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'Bearer ' + store.token
+					},
+					body: JSON.stringify({ account_type: accountType, balance: balance })
+				};
+			
+				try {
+					// Make a request to add a new account
+					const resp = await fetch(`${apiUrl}/api/add_new_account`, opts);
+					const data = await resp.json();
+			
+					// Update the store with the new account
+					setStore((prevState) => ({
+						balances: {
+							...prevState.balances,
+							[accountType]: balance
+						}
+					}));
+			
+					// Return the new account if needed
+					return data;
+				} catch (error) {
+					console.error("Error adding new account", error);
+					throw error;
+				}
+			},
+
               toggleDarkMode: () => {
 				const store = getStore();
 				const newIsDarkMode = !store.isDarkMode;
