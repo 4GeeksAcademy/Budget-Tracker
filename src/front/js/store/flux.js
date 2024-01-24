@@ -419,10 +419,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
 
-        const res = await fetch(
-          "https://redesigned-space-chainsaw-9w6g9r965wx3665-3001.app.github.dev/api/update_password",
-          opts
-        );
+        const res = await fetch(fetch(`${apiUrl}/api/update_password`, opts));
         const data = await res.json();
 
         return data;
