@@ -248,9 +248,6 @@ def update_personal_info():
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
     
-from flask import jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
-
 @api.route('/get_account_details/<int:account_id>', methods=['GET'])
 @jwt_required()
 def get_account_details(account_id):
