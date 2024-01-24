@@ -11,10 +11,23 @@ import { Activity } from "../component/settings/activity";
 import { Privacy } from "../component/settings/privacy";
 import { Notifications } from "../component/settings/notifications";
 import { Password } from "../component/settings/password";
+import { useNavigate } from "react-router-dom";
 
 export const Settings = () => {
   const { store, actions } = useContext(Context);
   const [key, setKey] = useState("profile");
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token == null) {
+      navigate("/login");
+    } else {
+      actions.syncToken(token);
+    }
+    setIsLoading(false);
+  }, []);
 
   return (
     <>

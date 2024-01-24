@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import Transaction, db, User, Account
+from api.models import Transaction, db, User, Account, Budget
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -68,9 +68,13 @@ def get_account_balances():
     user = User.query.filter_by(email=current_user_email).first()
 
     if user:
-        account_balances = {
-            account.account_type: account.balance for account in user.accounts
-        }
+        account_balances = [
+            {
+                'id': account.id,
+                'account_type': account.account_type,
+                'balance': account.balance
+            } for account in user.accounts
+        ]
 
         return jsonify(account_balances)
     else:
@@ -245,6 +249,30 @@ def update_personal_info():
         return jsonify({"error": str(e)}), 500
     
 
+@api.route('/get_account_details/<int:account_id>', methods=['GET'])
+@jwt_required()
+def get_account_details(account_id):
+    current_user_email = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+        account = Account.query.filter_by(id=account_id, user_id=user.id).first()
+
+        if account:
+            transactions = Transaction.query.filter_by(account_id=account.id).all()
+            account_details = {
+                "id": account.id,
+                "account_type": account.account_type,
+                "balance": account.balance,
+                "transactions": [transaction.serialize() for transaction in transactions]
+            }
+
+            return jsonify(account_details)
+        else:
+            return jsonify({"error": "Account not found"}), 404
+    else:
+        return jsonify({"error": "User not found"}), 404
 
 if __name__ == '__main__':
     api.run(debug=True)
