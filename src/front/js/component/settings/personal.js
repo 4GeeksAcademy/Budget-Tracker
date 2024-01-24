@@ -1,26 +1,52 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Context } from "../../store/appContext";
 
 export const PersonalInfo = () => {
-  const user = {
-    firstName: "Joe",
-    lastName: "Doe",
-    email: "Joes@gmail.com",
-    address: "Joes Home",
-    number: "321-021-2332",
+  const { store, actions } = useContext(Context);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    if (store.token && store.token != "" && store.token != undefined)
+      actions.getUser();
+  }, [store.token]);
+
+  const updateInfo = () => {
+    actions.updateUserInfo(firstName, lastName, email);
   };
 
   return (
-    <section>
+    <section className="tab">
       <div className="pt-2">
         <h3>Personal Details</h3>
         <div className="d-flex gap-5">
           <label className="d-flex flex-column">
             First Name
-            <input type="text" placeholder={user.firstName} />
+            <input
+              type="text"
+              placeholder={
+                store.user_info
+                  ? store.user_info.firstName
+                  : "No information found"
+              }
+              className="rounded border-dark p-1"
+              id="firstName"
+              onChange={(e) => setFirstName(e.target.value)}
+            />
           </label>
           <label className="d-flex flex-column">
             Last Name
-            <input placeholder={user.lastName} />
+            <input
+              placeholder={
+                store.user_info
+                  ? store.user_info.lastName
+                  : "No information found"
+              }
+              className="rounded border-dark  p-1"
+              id="lastName"
+              onChange={(e) => setLastName(e.target.value)}
+            />
           </label>
         </div>
       </div>
@@ -29,15 +55,22 @@ export const PersonalInfo = () => {
         <div className="d-flex gap-5">
           <label className="d-flex flex-column">
             Email Address
-            <input type="text" placeholder={user.address} />
-          </label>
-          <label className="d-flex flex-column">
-            Phone
-            <input placeholder={user.number} />
+            <input
+              type="text"
+              placeholder={
+                store.user_info ? store.user_info.email : "No information found"
+              }
+              className="rounded border-dark p-1"
+              id="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </label>
         </div>
       </div>
-      <button className="p-1 mt-5 rounded bg-primary text-white">
+      <button
+        className="p-1 mt-5 rounded bg-primary text-white"
+        onClick={() => updateInfo()}
+      >
         Update Info
       </button>
     </section>

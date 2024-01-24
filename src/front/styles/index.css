@@ -250,4 +250,16 @@ a {
   }
 
 
+/* Settings */
+.settings {
+  margin-left: 1rem;
+}
+
+.tab {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+
   

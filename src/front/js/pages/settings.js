@@ -18,12 +18,13 @@ export const Settings = () => {
 
   return (
     <>
-      <Container fluid className="main-wrapper">
+      <Container fluid className="main-wrapper ">
         <Row className="row-wrapper">
           <Col xs lg="1" className="left-column pr-4">
             <NavbarLeft />
           </Col>
-          <Col className="main-column pt-5">
+
+          <Col className="main-column pt-5 settings">
             <h1>Settings</h1>
             <Tabs
               id="controlled-tab-example"

@@ -205,6 +205,44 @@ def add_new_account():
         return jsonify(new_account.serialize()), 201
     else:
         return jsonify({"error": "User not found"}), 404
+    
+@api.route("/update_personal_info", methods=['POST'])
+@jwt_required()
+def update_personal_info():
+    current_user_email = get_jwt_identity()
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    if 'firstName' in request.json:
+        new_firstName = request.json['firstName']
+        if new_firstName != '':
+            if new_firstName != user.firstName:
+                user.firstName = new_firstName
+            
+    if 'lastName' in request.json:
+        new_lastName = request.json['lastName']
+        if new_lastName != '':
+            if new_lastName != user.lastName:
+                user.lastName = new_lastName
+
+    if 'email' in request.json:
+        new_email = request.json['email']
+        if new_email != '':
+            if new_email != current_user_email:
+                existing_user = User.query.filter_by(email=new_email).first()
+                if existing_user:
+                    return jsonify({"error": "Email is already in use by another user"}), 400
+
+                user.email = new_email
+
+    try:
+        db.session.commit()
+        return jsonify({"message": "User information updated successfully", "user": user.serialize()})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     api.run(debug=True)
