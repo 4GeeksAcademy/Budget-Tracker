@@ -8,6 +8,16 @@ export const AccountButtons = () => {
   const [showUpdate, setShowUpdate] = useState(false);
   const [showUpdateSavings, setShowUpdateSavings] = useState(false);
 
+  const cashBalance = store.balances.find(
+    (b) => b.account_type === "Cash"
+  )?.balance;
+  const creditBalance = store.balances.find(
+    (b) => b.account_type === "Credit"
+  )?.balance;
+  const savingsBalance = store.balances.find(
+    (b) => b.account_type === "Savings"
+  )?.balance;
+
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined)
       actions.getBalances();
@@ -64,7 +74,7 @@ export const AccountButtons = () => {
               >
                 <i className="fa-solid fa-plus"></i>
               </div>
-              <h3>$ {formatMoney(store.balances?.Cash)}</h3>
+              <h3>$ {formatMoney(cashBalance)}</h3>
               <span>CASH</span>
               <Modal
                 size="sm"
@@ -103,7 +113,7 @@ export const AccountButtons = () => {
         <Col>
           <div className="right-containers red">
             <div className="right-items">
-              <h3>$ {formatMoney(store.balances?.Credit)}</h3>
+              <h3>$ {formatMoney(creditBalance)}</h3>
               <span>CREDIT CARDS</span>
             </div>
           </div>
@@ -123,7 +133,7 @@ export const AccountButtons = () => {
               >
                 <i className="fa-solid fa-plus"></i>
               </div>
-              <h3>$ {formatMoney(store.balances?.Savings)}</h3>
+              <h3>$ {formatMoney(savingsBalance)}</h3>
               <span>SAVINGS</span>
               <Modal
                 show={showUpdateSavings}
