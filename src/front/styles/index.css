@@ -122,6 +122,11 @@ a {
 
   /* Center Column Elements */
 
+  .accountBalance {
+    font-size: 25px;
+    font-weight: bold;
+  }
+
   .new-account-btn {
     float: right;
     margin-top: -43px;
@@ -129,6 +134,7 @@ a {
 
   .acctBadges {
     padding: 20px;
+    color: #081426;
     border-radius: 15px;
     border: solid;
     border-color: gray;

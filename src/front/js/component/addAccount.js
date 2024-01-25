@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Row, Col, Modal, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 export const AddAccount = () => {
   const { store, actions } = useContext(Context);
@@ -85,25 +86,29 @@ export const AddAccount = () => {
           </Modal>
 
           <hr />
+          <div style={{ height: "20px" }}></div>
           {store.balances && (
             <>
-              {Object.keys(store.balances)
-                .reduce((rows, acctName, index) => {
+              {store.balances
+                .reduce((rows, account, index) => {
                   if (index % 3 === 0) {
                     rows.push([]);
                   }
                   rows[rows.length - 1].push(
-                    <Col sm={4} key={acctName} className="text-center">
-                      <div
-                        className="acctBadges"
-                        style={{
-                          backgroundColor: colors[index % colors.length],
-                        }}
-                      >
-                        <span>
-                          <i className="fa-solid fa-wallet"></i> {acctName}
-                        </span>
-                      </div>
+                    <Col sm={4} key={account.id} className="text-center">
+                      <Link to={`/accounts/${account.id}`}>
+                        <div
+                          className="acctBadges"
+                          style={{
+                            backgroundColor: colors[index % colors.length],
+                          }}
+                        >
+                          <span>
+                            <i className="fa-solid fa-wallet"></i>{" "}
+                            {account.account_type}
+                          </span>
+                        </div>
+                      </Link>
                     </Col>
                   );
                   return rows;
@@ -114,6 +119,7 @@ export const AddAccount = () => {
             </>
           )}
         </div>
+        <div style={{ height: "20px" }}></div>
       </div>
     </>
   );

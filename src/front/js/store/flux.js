@@ -1,14 +1,15 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	const apiUrl='https://studious-waffle-wr7w69jj4v4hjpq-3001.app.github.dev/'
-	return {
-		store: {
-			user_info: null,
-			token: null,
-			balances: [],
-			transactions: [],
-			isDarkMode: false,
-			
-		},
+
+  const apiUrl = "https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev";
+  return {
+    store: {
+      user_info: null,
+      token: null,
+      balances: [],
+      transactions: [],
+      account_details: [],
+      isDarkMode: false,
+    },
 
     actions: {
       // Use getActions to call a function within a function
@@ -318,19 +319,17 @@ const getState = ({ getStore, getActions, setStore }) => {
           const resp = await fetch(`${apiUrl}/api/get_user_info`, opts);
 
           if (!resp.ok) {
-            // Handle non-OK responses (e.g., 404, 500)
             console.error(`Error loading user info. Status: ${resp.status}`);
-            return null; // or handle it in a way that suits your application
+            return null;
           }
 
           const data = await resp.json();
           setStore({ user_info: data });
 
-          // Don't forget to return something; this is how the async function resolves
           return data;
         } catch (error) {
           console.error("Error loading user info", error);
-          return null; // or handle it in a way that suits your application
+          return null;
         }
       },
 
@@ -404,6 +403,38 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("Error updating user info", error);
         }
       },
+      
+      getAccountDetails: async (accountId) => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+        };
+
+        try {
+          const resp = await fetch(
+            `${apiUrl}/api/get_account_details/${accountId}`,
+            opts
+          );
+
+          if (!resp.ok) {
+            console.error(
+              `Error loading account details. Status: ${resp.status}`
+            );
+            return null;
+          }
+
+          const data = await resp.json();
+          setStore({ account_details: data });
+
+          return data;
+        } catch (error) {
+          console.error("Error loading account details", error);
+          return null;
+        }
+      },
 
       updateUserPassword: async (oldPassword, newPassword) => {
         const store = getStore();
@@ -413,6 +444,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: "Bearer " + store.token,
           },
+
           body: JSON.stringify({
             new_password: newPassword,
             old_password: oldPassword,
