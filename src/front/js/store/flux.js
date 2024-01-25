@@ -1,6 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
-<<<<<<< HEAD
-	const apiUrl='https://studious-waffle-wr7w69jj4v4hjpq-3001.app.github.dev'
+	const apiUrl='https://studious-waffle-wr7w69jj4v4hjpq-3001.app.github.dev/'
 	return {
 		store: {
 			user_info: null,
@@ -10,18 +9,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isDarkMode: false,
 			
 		},
-=======
-  const apiUrl =
-    "https://redesigned-space-chainsaw-9w6g9r965wx3665-3001.app.github.dev";
-  return {
-    store: {
-      user_info: null,
-      token: null,
-      balances: [],
-      transactions: [],
-      isDarkMode: false,
-    },
->>>>>>> 538431bd5867d5f06d02eaf81bc99e6633ed9a3d
 
     actions: {
       // Use getActions to call a function within a function

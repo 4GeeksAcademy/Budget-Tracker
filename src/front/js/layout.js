@@ -12,6 +12,7 @@ import { Settings } from './pages/settings'
 import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import "../styles/DarkMode.css";
+import { Feedback } from './pages/feedback';
 
 const Layout = () => {
     const { store } = useContext(Context); // Use the context to access the store
@@ -37,6 +38,7 @@ const Layout = () => {
                         <Route element={<Dashboard />} path="/dashboard/" />
                         <Route element={<Accounts />} path="/accounts/" />
                         <Route element={<Settings />} path="/settings/" />
+                        <Route element={<Feedback />} path="/feedback/" />
                     </Routes>
                  </ScrollToTop>
             </BrowserRouter>
