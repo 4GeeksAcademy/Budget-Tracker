@@ -248,7 +248,6 @@ def update_personal_info():
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
     
-
 @api.route('/get_account_details/<int:account_id>', methods=['GET'])
 @jwt_required()
 def get_account_details(account_id):
@@ -261,10 +260,12 @@ def get_account_details(account_id):
 
         if account:
             transactions = Transaction.query.filter_by(account_id=account.id).all()
+            total_transactions = len(transactions)
             account_details = {
                 "id": account.id,
                 "account_type": account.account_type,
                 "balance": account.balance,
+                "total_transactions": total_transactions,
                 "transactions": [transaction.serialize() for transaction in transactions]
             }
 
