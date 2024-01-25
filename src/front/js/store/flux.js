@@ -402,7 +402,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("Error updating user info", error);
         }
       },
-
+      
       getAccountDetails: async (accountId) => {
         const store = getStore();
         const opts = {
@@ -433,6 +433,27 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("Error loading account details", error);
           return null;
         }
+      },
+
+      updateUserPassword: async (oldPassword, newPassword) => {
+        const store = getStore();
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+
+          body: JSON.stringify({
+            new_password: newPassword,
+            old_password: oldPassword,
+          }),
+        };
+
+        const res = await fetch(`${apiUrl}/api/update_password`, opts);
+        const data = await res.json();
+
+        return data;
       },
     },
   };
