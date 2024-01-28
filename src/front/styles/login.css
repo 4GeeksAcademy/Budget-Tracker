@@ -1,0 +1,35 @@
+.dark-page {
+    background-color: #07223e; /* Dark background color */
+  }
+
+.login-box {
+    background-color: #f8f9fa; /* Light grey background, you can change this */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-box h1 {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: #333; /* Darker font color for contrast */
+}
+
+.login-box .btn-primary {
+    background-color: #0056b3; /* Darker shade of blue for the button */
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.login-box .btn-primary:hover {
+    background-color: #003d82; /* Even darker on hover */
+}
+
+.login-box .link-info {
+    color: #17a2b8; /* Bootstrap info color for the link */
+}
+
+.login-box .link-info:hover {
+    color: #138496; /* Darker shade on hover */
+}
