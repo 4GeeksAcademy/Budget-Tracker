@@ -94,10 +94,10 @@ body.dark-mode .center-container {
 
 body.dark-mode .dashboard-item-active {
   position: relative;
-  background-color: #F1F1F1;
+  background-color: black;
   padding: 10px 10px 10px 30px;
   margin-bottom: 30px;
-  color: #081426;
+  color: #F1F1F1;
   font-weight: 600;
   border-radius: 20px 0px 0px 20px!important;
 }
@@ -111,7 +111,7 @@ body.dark-mode .dashboard-item-active::before {
   height: 50px;
   width: 25px;
   border-top-right-radius: 15px;
-  box-shadow: 0px -25px 0 0 #F1F1F1;
+  box-shadow: 0px -25px 0 0 black;
 }
 
 /* pseudo element */
@@ -123,5 +123,5 @@ body.dark-mode .dashboard-item-active::after {
   height: 50px;
   width: 25px;
   border-bottom-right-radius: 15px;
-  box-shadow: 0px 25px 0 0 #F1F1F1;
+  box-shadow: 0px 25px 0 0 black;
 }
