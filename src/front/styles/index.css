@@ -12,12 +12,12 @@ a {
 }
 
 .red-numbers {
-  color: #C8423A;
+  color: #E04A80;
 
 }
 
 .green-numbers {
-  color: #85A47C ;
+  color: #00AA93 ;
 
 }
 
@@ -133,19 +133,27 @@ a {
   }
 
   .acctBadges {
-    padding: 20px;
+    padding: 10px;
     color: #081426;
     border-radius: 15px;
     border: solid;
-    border-color: gray;
+    border-color: rgba(164, 164, 164, 0.587);
     border-width: 1px;
     margin: auto;
-    width: 70%;
+    width: 80%;
     margin-top: 10px;
     margin-bottom: 20px;
     font-weight: 600;
     box-shadow: 3px 3px 10px rgb(0 0 0 / 0.2);
 
+  }
+
+  .hoverEffect {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .hoverEffect:hover {
+    transform: scale(1.1);
   }
 
   .add-transaction {

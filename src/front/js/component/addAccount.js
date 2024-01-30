@@ -33,7 +33,7 @@ export const AddAccount = () => {
       actions.getBalances();
   }, [store.token]);
 
-  const colors = ["#DFEF6A", "#B8DBAD", "#c77593", "#CD554F"];
+  const colors = ["#DFEF6A", "#a1db8f", "#c77593", "#CD554F"];
 
   return (
     <>
@@ -41,7 +41,7 @@ export const AddAccount = () => {
         <div className="right-items">
           <h5 className="mb-3">My Accounts</h5>
           <Button
-            style={{ backgroundColor: "#85A47C" }}
+            style={{ backgroundColor: "#00AA93" }}
             size="sm"
             className="new-account-btn"
             onClick={handleShow}
@@ -98,7 +98,7 @@ export const AddAccount = () => {
                     <Col sm={4} key={account.id} className="text-center">
                       <Link to={`/accounts/${account.id}`}>
                         <div
-                          className="acctBadges"
+                          className="acctBadges hoverEffect"
                           style={{
                             backgroundColor: colors[index % colors.length],
                           }}

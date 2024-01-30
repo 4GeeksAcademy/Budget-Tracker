@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import Container from "react-bootstrap/Container";
 import {
-  Modal,
   Button,
   Stack,
   Row,

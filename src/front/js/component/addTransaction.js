@@ -57,18 +57,21 @@ const AddTransaction = () => {
       actions.getTransactions();
   }, [store.token]);
 
+  console.log('Store Balances: ', store.balances)
+  console.log('Store Transactions: ', store.transactions)
+
   return (
     <div className="add-transaction">
       <ButtonGroup className="mb-2">
         <Button
-          style={{ backgroundColor: "#C8423A" }}
+          style={{ backgroundColor: "#E04A80" }}
           size="sm"
           onClick={handleShow}
         >
           <i className="fa-solid fa-circle-plus"></i> Expense
         </Button>
         <Button
-          style={{ backgroundColor: "#85A47C" }}
+          style={{ backgroundColor: "#00AA93" }}
           size="sm"
           onClick={handleShowIncomeModal}
         >

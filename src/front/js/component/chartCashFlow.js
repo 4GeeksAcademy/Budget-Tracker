@@ -57,7 +57,7 @@ function ChartCashFlow() {
   const options = {
     seriesType: "bars",
     series: { 2: { type: "line" } },
-    colors: ["#85A47C", "#C8423A"],
+    colors: ["#00AA93", "#E04A80"],
   };
 
   return (
