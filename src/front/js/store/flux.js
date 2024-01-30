@@ -241,6 +241,41 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await resp.json();
           setStore({ transactions: [...store.transactions, data] });
+
+          // Get the account balance
+          const account = store.balances.find(
+            (b) => Number(b.id) === Number(transaction.accountId)
+          );
+
+          // Subtract the transaction amount from the account's balance
+          let newBalance = account.balance + transaction.amount;
+          console.log("Account balance: ", account.balance);
+          console.log("Transaction amount: ", transaction.amount);
+          console.log("New balance: ", newBalance);
+
+          // Update the account's balance in the database
+          const updateResp = await fetch(
+            `${apiUrl}/api/update_account_balance/${account.id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + store.token,
+              },
+              body: JSON.stringify({ update_amount: newBalance }),
+            }
+          );
+          const updatedAccount = await updateResp.json();
+
+          // Update the local state with the new balance
+          account.balance = newBalance;
+          setStore({
+            ...store,
+            balances: store.balances.map((b) =>
+              b.id === account.id ? account : b
+            ),
+          });
+
           return data;
         } catch (error) {
           console.error("Error posting transaction", error);
@@ -402,7 +437,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("Error updating user info", error);
         }
       },
-      
+
       getAccountDetails: async (accountId) => {
         const store = getStore();
         const opts = {

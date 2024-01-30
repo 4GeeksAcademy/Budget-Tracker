@@ -136,6 +136,34 @@ def update_savings_balance():
             return jsonify({"error": "Savings account not found"}), 404
     else:
         return jsonify({"error": "User not found"}), 404
+
+@api.route('/update_account_balance/<int:account_id>', methods=['PUT'])
+@jwt_required()
+def update_account_balance(account_id):
+    current_user_email = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+        account = next((account for account in user.accounts if account.id == account_id), None)
+
+        if account:
+            try:
+                # Get the amount to update from the request data
+                update_amount = float(request.json.get('update_amount'))
+
+                # Update the account balance
+                account.balance = update_amount
+                db.session.commit()
+
+                return jsonify({"message": "Account balance updated successfully",
+                                "updatedBalance": account.balance})
+            except ValueError:
+                return jsonify({"error": "Invalid update amount. Must be a valid number"}), 400
+        else:
+            return jsonify({"error": "Account not found"}), 404
+    else:
+        return jsonify({"error": "User not found"}), 404
     
 
 @api.route('/get_user_transactions', methods=['GET'])
