@@ -75,7 +75,7 @@ export const AccountButtons = () => {
                 <i className="fa-solid fa-plus"></i>
               </div>
               <h3>$ {formatMoney(cashBalance)}</h3>
-              <span>CASH</span>
+              <span>CASH ACCOUNT</span>
               <Modal
                 size="sm"
                 show={showUpdate}
@@ -134,7 +134,7 @@ export const AccountButtons = () => {
                 <i className="fa-solid fa-plus"></i>
               </div>
               <h3>$ {formatMoney(savingsBalance)}</h3>
-              <span>SAVINGS</span>
+              <span>SAVINGS ACCOUNT</span>
               <Modal
                 show={showUpdateSavings}
                 onHide={() => setShowUpdateSavings(false)}

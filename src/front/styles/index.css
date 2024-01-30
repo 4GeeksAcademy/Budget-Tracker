@@ -132,6 +132,10 @@ a {
     margin-top: -43px;
   }
 
+  .new-budget-btn {
+    float: right;
+  }
+
   .acctBadges {
     padding: 10px;
     color: #081426;
@@ -273,6 +277,19 @@ a {
   background-color: white;
   padding: 1rem;
   border-radius: 0.5rem;
+}
+
+/* Progress Bars */
+
+.progress {
+  height: 10px;
+}
+.progress-bar {
+  background-color: #00AA93!important;
+
+}
+.redBar {
+  background-color: #E04A80!important;
 }
 
 

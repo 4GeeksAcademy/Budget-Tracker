@@ -79,7 +79,7 @@ export const AddAccount = () => {
                 </Form.Group>
 
                 <Button variant="success" type="submit">
-                  Create New Account
+                  Add New Account
                 </Button>
               </Form>
             </Modal.Body>

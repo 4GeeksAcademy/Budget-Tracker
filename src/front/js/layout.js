@@ -14,6 +14,7 @@ import { Navbar } from "./component/navbar";
 import "../styles/DarkMode.css";
 import { Feedback } from './pages/feedback';
 import AccountView from "./pages/accountView";
+import Budgets from "./pages/budgets";
 
 const Layout = () => {
     const { store } = useContext(Context); // Use the context to access the store
@@ -41,6 +42,7 @@ const Layout = () => {
                         <Route element={<AccountView />} path="/accounts/:accountId" />
                         <Route element={<Settings />} path="/settings/" />
                         <Route element={<Feedback />} path="/feedback/" />
+                        <Route element={<Budgets />} path="/budgets/" />
                     </Routes>
                  </ScrollToTop>
             </BrowserRouter>

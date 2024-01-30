@@ -50,7 +50,7 @@ class Budget(db.Model):
     @staticmethod
     def init_default_categories(user):
         default_categories = ['Food', 'Transport', 'Bills', 'Housing']
-        budgets = [Budget(category=category, amount=0.0, user=user) for category in default_categories]
+        budgets = [Budget(category=category, amount=100.0, user=user) for category in default_categories]
         db.session.add_all(budgets)
         db.session.commit()
 
@@ -87,7 +87,8 @@ class Transaction(db.Model):
             "date": self.date,
             "user_id": self.user_id,
             "account_type": self.account.account_type if self.account else None,
-            "budget": self.budget.category if self.budget else None
+            "budget": self.budget.category if self.budget else None,
+            "budget_id": self.budget_id
         }
     
 class Account(db.Model):

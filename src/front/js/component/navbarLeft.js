@@ -24,10 +24,14 @@ function NavbarLeft() {
         </div>
       )}
       </NavLink>
-      <div className='dashboard-item'>
+      <NavLink to="/budgets">
+      {({ isActive }) => (
+      <div className={isActive ? 'dashboard-item-active' : 'dashboard-item'}>
       <i className="fa-solid fa-sack-dollar icon"></i>
       <span>Budgets</span>
       </div>
+      )}
+      </NavLink>
       <NavLink to="/accounts">
       {({ isActive }) => (
         <div className={isActive ? 'dashboard-item-active' : 'dashboard-item'}>
