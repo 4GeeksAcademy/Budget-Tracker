@@ -12,6 +12,7 @@ import { Settings } from './pages/settings'
 import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import "../styles/DarkMode.css";
+import { Feedback } from './pages/feedback';
 import AccountView from "./pages/accountView";
 
 const Layout = () => {
@@ -39,6 +40,7 @@ const Layout = () => {
                         <Route element={<Accounts />} path="/accounts/" />
                         <Route element={<AccountView />} path="/accounts/:accountId" />
                         <Route element={<Settings />} path="/settings/" />
+                        <Route element={<Feedback />} path="/feedback/" />
                     </Routes>
                  </ScrollToTop>
             </BrowserRouter>

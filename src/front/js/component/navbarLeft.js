@@ -45,14 +45,28 @@ function NavbarLeft() {
       )}
       </NavLink>
       <div className='dashboard-item' onClick={actions.toggleDarkMode}>
-            <i className="fa-solid fa-moon icon"></i>
+        {/* Conditional rendering based on isDarkMode */}
+        {store.isDarkMode ? (
+          <>
+            <i className="fa-solid fa-sun icon"></i> {/* Sun icon for light mode */}
+            <span>Light Mode</span>
+          </>
+        ) : (
+          <>
+            <i className="fa-solid fa-moon icon"></i> {/* Moon icon for dark mode */}
             <span>Dark Mode</span>
-        </div>
-      <hr className='hr-nav'/>
-      <div className='dashboard-item'>
-          <i className="fa-solid fa-question icon"></i>
-          <span>Support</span>
+          </>
+        )}
       </div>
+      <hr className='hr-nav'/>
+      <NavLink to="/feedback">
+  {({ isActive }) => (
+    <div className={isActive ? 'dashboard-item-active' : 'dashboard-item'}>
+      <i className="fa-solid fa-comment-dots icon"></i>
+      <span>Feedback</span>
+    </div>
+  )}
+</NavLink>
       <NavLink to="/login" onClick={handleLogout}>
         <div className='dashboard-item'>
           <i className="fa-solid fa-right-from-bracket icon"></i>
