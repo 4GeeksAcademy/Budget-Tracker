@@ -42,6 +42,10 @@ export const AccountDetails = () => {
     if (store.token && store.token !== "" && store.token !== undefined) {
       actions.getAccountDetails(accountId).then(() => {
         if (store.account_details) {
+          // Sort transactions by date in descending order
+          store.account_details.transactions.sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          );
           setAccount(store.account_details);
         }
         setIsLoading(false);

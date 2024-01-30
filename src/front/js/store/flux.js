@@ -1,6 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
-
-  const apiUrl = "https://studious-waffle-wr7w69jj4v4hjpq-3001.app.github.dev/";
+  const apiUrl = "https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev/";
   return {
     store: {
       user_info: null,
@@ -8,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       balances: [],
       transactions: [],
       account_details: [],
+      budgets: [],
       isDarkMode: false,
     },
 
@@ -115,6 +115,26 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.log("Error loading balances", error);
+        }
+      },
+
+      getBudgets: async () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + store.token,
+          },
+        };
+      
+        try {
+          // fetching data from the backend
+          const resp = await fetch(`${apiUrl}/api/get_budgets`, opts);
+          const data = await resp.json();
+          setStore({ budgets: data });
+          // don't forget to return something, that is how the async resolves
+          return data;
+        } catch (error) {
+          console.log("Error loading budgets", error);
         }
       },
 
@@ -250,9 +270,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           // Subtract the transaction amount from the account's balance
           let newBalance = account.balance + transaction.amount;
-          console.log("Account balance: ", account.balance);
-          console.log("Transaction amount: ", transaction.amount);
-          console.log("New balance: ", newBalance);
 
           // Update the account's balance in the database
           const updateResp = await fetch(
@@ -328,6 +345,38 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await resp.json();
           setStore({ transactions: [...store.transactions, data] });
+
+          // Get the account balance
+          const account = store.balances.find(
+            (b) => Number(b.id) === Number(transaction.accountId)
+          );
+
+          // Add the transaction amount to the account's balance
+          let newBalance = account.balance + transaction.amount;
+
+          // Update the account's balance in the database
+          const updateResp = await fetch(
+            `${apiUrl}/api/update_account_balance/${account.id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + store.token,
+              },
+              body: JSON.stringify({ update_amount: newBalance }),
+            }
+          );
+          const updatedAccount = await updateResp.json();
+
+          // Update the local state with the new balance
+          account.balance = newBalance;
+          setStore({
+            ...store,
+            balances: store.balances.map((b) =>
+              b.id === account.id ? account : b
+            ),
+          });
+
           return data;
         } catch (error) {
           console.error("Error posting transaction", error);
@@ -396,6 +445,68 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.error("Error adding new account", error);
+          throw error;
+        }
+      },
+
+      addNewBudget: async (budgetCategory, amount) => {
+        const store = getStore();
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+          body: JSON.stringify({ budget_category: budgetCategory, amount: amount }),
+        };
+      
+        try {
+          // Make a request to add a new budget
+          const resp = await fetch(`${apiUrl}/api/new_budget`, opts);
+          const data = await resp.json();
+      
+          // Update the store with the new budget
+          setStore((prevState) => ({
+            budgets: {
+              ...prevState.budgets,
+              [budgetCategory]: amount,
+            },
+          }));
+      
+          return data;
+        } catch (error) {
+          console.error("Error adding new budget", error);
+          throw error;
+        }
+      },
+
+      editBudget: async (budgetId, budgetCategory, amount) => {
+        const store = getStore();
+        const opts = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+          body: JSON.stringify({ budget_category: budgetCategory, amount: amount }),
+        };
+      
+        try {
+          // Make a request to edit an existing budget
+          const resp = await fetch(`${apiUrl}/api/edit_budget/${budgetId}`, opts);
+          const data = await resp.json();
+      
+          // Update the store with the edited budget
+          setStore((prevState) => ({
+            budgets: {
+              ...prevState.budgets,
+              [budgetCategory]: amount,
+            },
+          }));
+      
+          return data;
+        } catch (error) {
+          console.error("Error editing budget", error);
           throw error;
         }
       },

@@ -80,6 +80,63 @@ def get_account_balances():
     else:
         return jsonify({"error": "User not found"}), 404
     
+@api.route('/get_budgets', methods=['GET'])
+@jwt_required()
+def get_budgets():
+    current_user_email = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+        budgets = [
+            {
+                'id': budget.id,
+                'budget_category': budget.category,
+                'amount': budget.amount
+            } for budget in user.budgets
+        ]
+
+        return jsonify(budgets)
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
+@api.route('/new_budget', methods=['POST'])
+@jwt_required()
+def create_budget():
+    current_user_email = get_jwt_identity()
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+        data = request.get_json()
+        new_budget = Budget(category=data['budget_category'], amount=data['amount'], user_id=user.id)
+        db.session.add(new_budget)
+        db.session.commit()
+
+        return jsonify({"message": "Budget created successfully"}), 201
+    else:
+        return jsonify({"error": "User not found"}), 404
+
+@api.route('/edit_budget/<int:budget_id>', methods=['PUT'])
+@jwt_required()
+def modify_budget(budget_id):
+    current_user_email = get_jwt_identity()
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+        data = request.get_json()
+        budget = Budget.query.filter_by(id=budget_id, user_id=user.id).first()
+
+        if budget:
+            budget.category = data.get('budget_category', budget.category)
+            budget.amount = data.get('amount', budget.amount)
+            db.session.commit()
+
+            return jsonify({"message": "Budget updated successfully"}), 200
+        else:
+            return jsonify({"error": "Budget not found"}), 404
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
 @api.route('/update_cash_balance', methods=['PUT'])
 @jwt_required()
 def update_cash_balance():
