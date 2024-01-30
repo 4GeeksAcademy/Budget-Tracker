@@ -194,7 +194,7 @@ export const MyBudgets = () => {
 
       <Modal show={editModal} onHide={handleCloseEditModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Budget</Modal.Title>
+          <Modal.Title>Edit Monthly Budget</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleEditBudget}>
