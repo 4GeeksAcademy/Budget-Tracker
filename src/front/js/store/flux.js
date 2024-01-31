@@ -171,6 +171,39 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      updateCreditBalance: async (updateAmount) => {
+        const store = getStore();
+        const opts = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+          body: JSON.stringify({ update_amount: updateAmount }),
+        };
+      
+        try {
+          // Make a request to update the credit balance
+          const resp = await fetch(`${apiUrl}/api/update_credit_balance`, opts);
+          const data = await resp.json();
+      
+          const updatedCreditBalance = data.updatedCreditBalance;
+      
+          setStore((prevState) => ({
+            balances: {
+              ...prevState.balances,
+              Credit: updatedCreditBalance,
+            },
+          }));
+      
+          // Return the updated balance if needed
+          return updatedCreditBalance;
+        } catch (error) {
+          console.error("Error updating credit balance", error);
+          throw error;
+        }
+      },
+
       updateSavingsBalance: async (updateAmount) => {
         const store = getStore();
         const opts = {
