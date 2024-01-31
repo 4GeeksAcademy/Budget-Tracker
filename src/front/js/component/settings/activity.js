@@ -6,7 +6,7 @@ export const Activity = () => {
   useEffect(() => {
     actions.getAllUserActivity();
     console.log("ACtivity from store", store.activity.User);
-  });
+  }, []);
 
   return (
     <section className="tab">
