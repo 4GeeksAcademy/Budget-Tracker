@@ -12,6 +12,7 @@ class User(db.Model):
     budgets = db.relationship('Budget', backref='user', lazy=True)
     transactions = db.relationship('Transaction', backref='user', lazy=True)
     accounts = db.relationship('Account', backref='user', lazy=True)
+    activities = db.relationship('Activity', backref='user', lazy=True)
 
 
     def __repr__(self):
@@ -25,8 +26,10 @@ class User(db.Model):
             "lastName": self.lastName,
             "budgets": [budget.serialize() for budget in self.budgets],
             "transactions": [transaction.serialize() for transaction in self.transactions],
-            "accounts": [account.serialize() for account in self.accounts]
-            # do not serialize the password, it's a security breach
+            "accounts": [account.serialize() for account in self.accounts],
+            "activities": [activity.serialize() for activity in self.activities]
+
+           # do not serialize the password, it's a security breach
         }
     
 class Budget(db.Model):
@@ -119,3 +122,20 @@ class Account(db.Model):
         accounts = [Account(account_type=acc['account_type'], balance=acc['balance'], user=user) for acc in default_accounts]
         db.session.add_all(accounts)
         db.session.commit()
+
+
+
+class Activity(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    time = db.Column(db.String(120), nullable=False)
+    device = db.Column(db.String(120), nullable=False)
+    ip = db.Column(db.String(120), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "time": self.time,
+            "device": self.device,
+            "ip": self.ip,
+        }

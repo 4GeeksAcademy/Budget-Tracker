@@ -360,5 +360,21 @@ def get_account_details(account_id):
     else:
         return jsonify({"error": "User not found"}), 404
 
+
+@api.route('/get_all_user_activities', methods=['GET'])
+@jwt_required()
+def get_activity():
+    current_user = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user).first()
+
+    if user:
+        user_activities = [activity.serialize()
+                           for activity in user.activities]
+        return jsonify({"User": user_activities})
+    else:
+        return jsonify({"Message": "Error Finding user"})
+
+
 if __name__ == '__main__':
     api.run(debug=True)
