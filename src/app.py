@@ -169,10 +169,6 @@ def get_user_activity():
     if user:
 
         current_time = datetime.utcnow().strftime("%B %d, %Y %I:%M %p")
-        # user_agent = request.user_agent
-        # browser_type = user_agent.browser
-        # platform_type = user_agent.platform
-
         user_device = request.user_agent.string
         ip_address = request.remote_addr
 
@@ -181,7 +177,6 @@ def get_user_activity():
             time=current_time,
             device=user_device,
             ip=ip_address
-            # device=user_device
         )
 
         db.session.add(new_activity)
@@ -190,6 +185,25 @@ def get_user_activity():
         return jsonify(new_activity.serialize()), 201
     else:
         return jsonify({"error": "User not found"}), 404
+
+@app.route('/api/delete_account', methods=['POST'])
+@jwt_required()
+def deleteUserAccount():
+    current_user = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user).first()
+
+    if user:
+        Account.query.filter_by(user_id=user.id).delete()
+        Activity.query.filter_by(user_id=user.id).delete()
+        Budget.query.filter_by(user_id=user.id).delete()
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({"message": "User deleted successfully"}), 200
+    else:
+        return jsonify({"message": "User not found"}), 404
+
+
 
 
 @app.route('/<path:path>', methods=['GET'])
