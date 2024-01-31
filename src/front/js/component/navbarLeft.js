@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../../img/BudgetAppLogo6.png";
 
 function NavbarLeft() {
   const { store, actions } = useContext(Context);
@@ -16,6 +17,7 @@ function NavbarLeft() {
 
   return (
     <>
+      <div className="logo"><img src={logo} width={125} alt='Logo' /></div>
       <NavLink to="/dashboard">
       {({ isActive }) => (
         <div className={isActive ? 'dashboard-item-active' : 'dashboard-item'}>
