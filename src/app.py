@@ -10,7 +10,7 @@ from datetime import datetime, timedelta, timezone
 from flask_migrate import Migrate
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Budget, Account
+from api.models import db, User, Budget, Account, Activity
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -159,6 +159,37 @@ def update_password():
         db.session.commit()
         return jsonify({ "message": "Updated Password"}), 200
 
+@app.route('/api/track_user_activity', methods=['POST'])
+@jwt_required()
+def get_user_activity():
+    current_user_email = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+
+        current_time = datetime.utcnow().strftime("%B %d, %Y %I:%M %p")
+        # user_agent = request.user_agent
+        # browser_type = user_agent.browser
+        # platform_type = user_agent.platform
+
+        user_device = request.user_agent.string
+        ip_address = request.remote_addr
+
+        new_activity = Activity(
+            user_id=user.id,
+            time=current_time,
+            device=user_device,
+            ip=ip_address
+            # device=user_device
+        )
+
+        db.session.add(new_activity)
+        db.session.commit()
+
+        return jsonify(new_activity.serialize()), 201
+    else:
+        return jsonify({"error": "User not found"}), 404
 
 
 @app.route('/<path:path>', methods=['GET'])
