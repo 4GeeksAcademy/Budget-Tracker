@@ -80,7 +80,7 @@ export const MyBudgets = () => {
               }}
             >
               <h5>My Budgets</h5>
-              <h5>{new Date().toLocaleString("default", { month: "long" })}</h5>
+              <h6>{new Date().toLocaleString("default", { month: "long", year: "numeric" })}</h6>
               <Button
                 style={{ backgroundColor: "#00AA93" }}
                 size="sm"

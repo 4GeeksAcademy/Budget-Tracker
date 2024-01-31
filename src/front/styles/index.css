@@ -64,12 +64,13 @@ a {
    /* Left Column Elements */
 
   .left-column {
+    height: 100vh;
     background-color: #F1F1F1;
     background: #081426;
     color: white;
     width: 200px!important;
     margin-top: 50px;
-    padding-top: 90px;
+    padding-top: 20px;
     padding-right: 0!important;
     border-radius: 0px 25px 0px 0px!important;
   }
@@ -291,6 +292,17 @@ a {
 .redBar {
   background-color: #E04A80!important;
 }
+
+/* Logo */
+
+.logo {
+  margin-bottom: 40px;
+  text-align: left;
+  margin-left: 27px;
+  margin-top: 20px;
+}
+
+
 
 
   
