@@ -64,7 +64,7 @@ function ChartCashFlow() {
     <div className="py-10">
       {isLoading ? (
         <div>Loading...</div>
-      ) : (
+      ) : data.length > 1 ? (
         <Chart
           chartType="ComboChart"
           width="100%"
@@ -72,6 +72,8 @@ function ChartCashFlow() {
           data={data}
           options={options}
         />
+      ) : (
+        <div>No data</div>
       )}
     </div>
   );

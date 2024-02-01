@@ -18,6 +18,7 @@ export const Login = () => {
   const handleLogin = () => {
     actions.login(email, password).then(() => {
       actions.trackUserActivity();
+      actions.getAllUserActivity();
       navigate("/dashboard");
     });
   };

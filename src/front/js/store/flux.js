@@ -173,6 +173,39 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      updateCreditBalance: async (updateAmount) => {
+        const store = getStore();
+        const opts = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+          body: JSON.stringify({ update_amount: updateAmount }),
+        };
+
+        try {
+          // Make a request to update the credit balance
+          const resp = await fetch(`${apiUrl}/api/update_credit_balance`, opts);
+          const data = await resp.json();
+
+          const updatedCreditBalance = data.updatedCreditBalance;
+
+          setStore((prevState) => ({
+            balances: {
+              ...prevState.balances,
+              Credit: updatedCreditBalance,
+            },
+          }));
+
+          // Return the updated balance if needed
+          return updatedCreditBalance;
+        } catch (error) {
+          console.error("Error updating credit balance", error);
+          throw error;
+        }
+      },
+
       updateSavingsBalance: async (updateAmount) => {
         const store = getStore();
         const opts = {
@@ -623,10 +656,17 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: "Bearer " + store.token,
           },
         };
+
         try {
           const res = await fetch(`${apiUrl}/api/track_user_activity`, opts);
+
+          // Check if the response is ok before parsing the body
+          if (!res.ok) {
+            const errorBody = await res.text(); // Parse the body as text
+            throw new Error(`Server responded with status code ${res.status}`);
+          }
+
           const data = await res.json();
-          console.log("Activity added to user", data);
         } catch (error) {
           console.error("Error tracking user activity", error);
         }

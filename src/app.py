@@ -15,6 +15,7 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import create_access_token, JWTManager
+from user_agents import parse
 
 # from models import Person
 
@@ -167,15 +168,18 @@ def get_user_activity():
     user = User.query.filter_by(email=current_user_email).first()
 
     if user:
-
         current_time = datetime.utcnow().strftime("%B %d, %Y %I:%M %p")
-        user_device = request.user_agent.string
+
+        user_agent_string = request.user_agent.string
+        user_agent = parse(user_agent_string)
+        device_name = f"{user_agent.os.family} {user_agent.device.family} {user_agent.browser.family}"
+
         ip_address = request.remote_addr
 
         new_activity = Activity(
             user_id=user.id,
             time=current_time,
-            device=user_device,
+            device=device_name,
             ip=ip_address
         )
 

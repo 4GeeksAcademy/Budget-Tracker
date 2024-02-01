@@ -178,7 +178,7 @@ export const MyBudgets = () => {
                     </span>
                     <span
                       className="green-numbers"
-                      style={{ marginLeft: "auto", fontSize: "10px" }}
+                      style={{ marginLeft: "auto", fontSize: "10px", cursor: "pointer"}}
                       onClick={() => handleShowEditModal(budget)}
                     >
                       <i className="fa-regular fa-pen-to-square"></i> Edit
