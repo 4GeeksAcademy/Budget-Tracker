@@ -1,5 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
-  const apiUrl = "https://obscure-space-xylophone-6wvxgqgvvxgfrxx-3001.app.github.dev";
+  const apiUrl = "https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev";
   return {
     store: {
       user_info: null,
@@ -126,7 +126,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: "Bearer " + store.token,
           },
         };
-      
+
         try {
           // fetching data from the backend
           const resp = await fetch(`${apiUrl}/api/get_budgets`, opts);
@@ -182,21 +182,21 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify({ update_amount: updateAmount }),
         };
-      
+
         try {
           // Make a request to update the credit balance
           const resp = await fetch(`${apiUrl}/api/update_credit_balance`, opts);
           const data = await resp.json();
-      
+
           const updatedCreditBalance = data.updatedCreditBalance;
-      
+
           setStore((prevState) => ({
             balances: {
               ...prevState.balances,
               Credit: updatedCreditBalance,
             },
           }));
-      
+
           // Return the updated balance if needed
           return updatedCreditBalance;
         } catch (error) {
@@ -491,14 +491,17 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: "Bearer " + store.token,
           },
-          body: JSON.stringify({ budget_category: budgetCategory, amount: amount }),
+          body: JSON.stringify({
+            budget_category: budgetCategory,
+            amount: amount,
+          }),
         };
-      
+
         try {
           // Make a request to add a new budget
           const resp = await fetch(`${apiUrl}/api/new_budget`, opts);
           const data = await resp.json();
-      
+
           // Update the store with the new budget
           setStore((prevState) => ({
             budgets: {
@@ -506,7 +509,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               [budgetCategory]: amount,
             },
           }));
-      
+
           return data;
         } catch (error) {
           console.error("Error adding new budget", error);
@@ -522,14 +525,20 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: "Bearer " + store.token,
           },
-          body: JSON.stringify({ budget_category: budgetCategory, amount: amount }),
+          body: JSON.stringify({
+            budget_category: budgetCategory,
+            amount: amount,
+          }),
         };
-      
+
         try {
           // Make a request to edit an existing budget
-          const resp = await fetch(`${apiUrl}/api/edit_budget/${budgetId}`, opts);
+          const resp = await fetch(
+            `${apiUrl}/api/edit_budget/${budgetId}`,
+            opts
+          );
           const data = await resp.json();
-      
+
           // Update the store with the edited budget
           setStore((prevState) => ({
             budgets: {
@@ -537,7 +546,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               [budgetCategory]: amount,
             },
           }));
-      
+
           return data;
         } catch (error) {
           console.error("Error editing budget", error);
@@ -640,28 +649,35 @@ const getState = ({ getStore, getActions, setStore }) => {
       trackUserActivity: async () => {
         const store = getStore();
         const opts = {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + store.token,
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
           },
         };
+
         try {
           const res = await fetch(`${apiUrl}/api/track_user_activity`, opts);
+
+          // Check if the response is ok before parsing the body
+          if (!res.ok) {
+            const errorBody = await res.text(); // Parse the body as text
+            throw new Error(`Server responded with status code ${res.status}`);
+          }
+
           const data = await res.json();
-          console.log('Activity added to user', data);
         } catch (error) {
-          console.error('Error tracking user activity', error);
+          console.error("Error tracking user activity", error);
         }
       },
 
       getAllUserActivity: async () => {
         const store = getStore();
         const opts = {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + store.token,
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
           },
         };
 
@@ -675,7 +691,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           setStore({ activity: data });
         } catch (error) {
-          console.error('Error getting all user activities', error);
+          console.error("Error getting all user activities", error);
         }
       },
     },

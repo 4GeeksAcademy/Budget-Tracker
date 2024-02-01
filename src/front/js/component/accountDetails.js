@@ -132,8 +132,6 @@ export const AccountDetails = () => {
     </Popover>
   );
 
-  console.log("Account balances:", store.balances);
-
   return (
     <>
       <Container className="center-container">

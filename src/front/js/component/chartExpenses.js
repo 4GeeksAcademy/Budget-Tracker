@@ -26,8 +26,6 @@ function ChartExpenses() {
     }
     });
 
-    console.log(expensesByBudget); 
-
     const expensesByCategory = Object.entries(expensesByBudget).map(([category, amount]) => [category, Math.abs(amount)]);
 
     const options = {
