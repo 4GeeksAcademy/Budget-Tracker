@@ -6,6 +6,7 @@ export const Activity = () => {
   useEffect(() => {
     actions.getAllUserActivity();
     console.log("Activity from store", store.activity.User);
+
   }, []);
 
   return (
@@ -18,7 +19,7 @@ export const Activity = () => {
       <ListGroup className="d-flex flex-column gap-4">
         {store.activity.User ? (
           store.activity.User.map((el, key) => {
-            return (
+           return (
               <div key={el.id}>
                 <ListGroup.Item className="rounded">
                   <strong>Device: </strong>

@@ -1,5 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
-  const apiUrl = "https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev";
+  const apiUrl =
+    "https://obscure-space-xylophone-6wvxgqgvvxgfrxx-3001.app.github.dev";
   return {
     store: {
       user_info: null,
@@ -690,6 +691,26 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
 
           setStore({ activity: data });
+        } catch (error) {
+          console.error("Error getting all user activities", error);
+        }
+      },
+
+      deleteUserAccount: async () => {
+        const store = getStore();
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+        };
+
+        try {
+          const resp = await fetch(`${apiUrl}/api/delete_account`, opts);
+          const data = await resp.json();
+          setStore({ token: null });
+          return data;
         } catch (error) {
           console.error("Error getting all user activities", error);
         }
