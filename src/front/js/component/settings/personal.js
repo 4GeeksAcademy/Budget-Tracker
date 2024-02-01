@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 
 export const PersonalInfo = () => {
@@ -6,6 +7,7 @@ export const PersonalInfo = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (store.token && store.token != "" && store.token != undefined)
@@ -14,6 +16,12 @@ export const PersonalInfo = () => {
 
   const updateInfo = () => {
     actions.updateUserInfo(firstName, lastName, email);
+  };
+
+  const deleteAccount = async () => {
+    actions.deleteUserAccount();
+    console.log("Account deleted");
+    navigate("/");
   };
 
   return (
@@ -67,12 +75,20 @@ export const PersonalInfo = () => {
           </label>
         </div>
       </div>
-      <button
-        className="p-1 mt-5 rounded bg-primary text-white"
-        onClick={() => updateInfo()}
-      >
-        Update Info
-      </button>
+      <div className="d-flex gap-4">
+        <button
+          className="p-1 mt-5 rounded bg-primary text-white"
+          onClick={() => updateInfo()}
+        >
+          Update Info
+        </button>
+        <button
+          className="p-1 mt-5 rounded bg-danger text-white"
+          onClick={() => deleteAccount()}
+        >
+          Delete Account
+        </button>
+      </div>
     </section>
   );
 };

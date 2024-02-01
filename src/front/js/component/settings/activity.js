@@ -6,7 +6,7 @@ export const Activity = () => {
   useEffect(() => {
     actions.getAllUserActivity();
     console.log("ACtivity from store", store.activity.User);
-  });
+  }, []);
 
   return (
     <section className="tab">
@@ -19,16 +19,14 @@ export const Activity = () => {
         {store.activity.User ? (
           store.activity.User.map((el, key) => {
             return (
-              <div>
-                <ListGroup.Item className="rounded">
-                  <strong>Device: </strong>
-                  {el.device} <br />
-                  <strong>Location: </strong>
-                  {el.ip} <br />
-                  <strong>Time: </strong>
-                  {el.time}
-                </ListGroup.Item>
-              </div>
+              <ListGroup.Item className="rounded" key={key}>
+                <strong>Device: </strong>
+                {el.device} <br />
+                <strong>Location: </strong>
+                {el.ip} <br />
+                <strong>Time: </strong>
+                {el.time}
+              </ListGroup.Item>
             );
           })
         ) : (
