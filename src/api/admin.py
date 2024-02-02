@@ -45,7 +45,6 @@ def setup_admin(app):
     admin.add_view(CustomUserView(User, db.session))
     admin.add_view(CustomBudgetView(Budget, db.session))
     admin.add_view(ModelView(Account, db.session))
-    admin.add_view(ModelView(Activity, db.session))
     admin.add_view(CustomTransactionView(Transaction, db.session))
     admin.add_view(ModelView(Activity, db.session))
 

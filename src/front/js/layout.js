@@ -10,7 +10,6 @@ import { Dashboard } from "./pages/dashboard";
 import { Accounts } from "./pages/accounts";
 import { Settings } from './pages/settings'
 import injectContext from "./store/appContext";
-import { Navbar } from "./component/navbar";
 import "../styles/DarkMode.css";
 import { Feedback } from './pages/feedback';
 import AccountView from "./pages/accountView";
@@ -33,9 +32,9 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Routes>
-                        <Route element={<Login />} path="/" />
-                        <Route element={<Login />} path="/login/" />
-                        <Route element={<Signup />} path="/signup/" />
+                        <Route element={<div className="animated_gradient"><Login /></div>} path="/" />
+                        <Route element={<div className="animated_gradient"><Login /></div>} path="/login/" />
+                        <Route element={<div className="animated_gradient"><Signup /></div>} path="/signup/" />
                         <Route element={<Dashboard />} path="/dashboard/" />
                         <Route element={<Accounts />} path="/accounts/" />
                         <Route element={<AccountView />} path="/accounts/:accountId" />

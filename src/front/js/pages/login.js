@@ -40,13 +40,13 @@ export const Login = () => {
     >
       <Row className="box w-100 justify-content-between align-items-center">
         <Col md={6} className="text-center text-light">
-          <img src={logo} width={450} alt="Logo" />
+          <img src={logo} width={450} alt="Logo" className="fade-in-logo" />
 
           <div style={{ marginTop: "30px" }}>
             <hr
               style={{ width: "440px", margin: "auto", marginBottom: "20px" }}
             />
-            <h2>Smart budgeting made simple</h2>
+            <h2 className="fade-in-text">Smart budgeting made simple</h2>
           </div>
         </Col>
         <Col md={6}>
