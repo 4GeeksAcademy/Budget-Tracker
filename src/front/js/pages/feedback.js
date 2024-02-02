@@ -1,16 +1,29 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useNavigate } from 'react-router-dom';
 import NavbarLeft from "../component/navbarLeft";
 import '../../styles/feedback.css'; 
 
 export const Feedback = () => {
   const { actions } = useContext(Context);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   const [feedback, setFeedback] = useState('');
   const [category, setCategory] = useState('');
   const [opinion, setOpinion] = useState('');
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token == null) {
+      navigate("/login");
+    } else {
+      actions.syncToken(token);
+    }
+    setIsLoading(false);
+  }, []);
 
   const handleFeedbackChange = (e) => {
     setFeedback(e.target.value);

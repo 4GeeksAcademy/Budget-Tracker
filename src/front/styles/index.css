@@ -260,6 +260,11 @@ a {
   bottom: 25px;
 }
 
+.activities {
+  position: relative;
+  height: 710px;
+}
+
 .yellow {
   background-color: #f4ecda;
   border: solid;
@@ -313,8 +318,22 @@ a {
 
 .tab {
   background-color: white;
-  padding: 1rem;
-  border-radius: 0.5rem;
+  padding: 30px;
+  border-radius: 0 20px 20px 20px;
+  max-width: 900px;
+}
+
+.nav-tabs {
+  border-bottom: 0px solid transparent;
+}
+.nav-tabs .nav-link {
+  border: 0px solid transparent;
+  font-size: 18px;
+}
+
+.nav-link {
+  color: #00aa93;
+  font-weight: 600;
 }
 
 /* Progress Bars */
