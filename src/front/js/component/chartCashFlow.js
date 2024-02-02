@@ -58,6 +58,24 @@ function ChartCashFlow() {
     seriesType: "bars",
     series: { 2: { type: "line" } },
     colors: ["#00AA93", "#E04A80"],
+    backgroundColor: store.isDarkMode ? "#1E1E1E" : "#fff",
+    legend: {
+      position: "labeled",
+      textStyle: {
+        color: store.isDarkMode ? "#fff" : "#081426",
+        fontSize: 12,
+      },
+    },
+    vAxis: {
+      textStyle: {
+        color: store.isDarkMode ? "#fff" : "#081426",
+      },
+    },
+    hAxis: {
+      textStyle: {
+        color: store.isDarkMode ? "#fff" : "#081426",
+      },
+    },
   };
 
   return (

@@ -10,7 +10,6 @@ import { Dashboard } from "./pages/dashboard";
 import { Accounts } from "./pages/accounts";
 import { Settings } from './pages/settings'
 import injectContext from "./store/appContext";
-import { Navbar } from "./component/navbar";
 import "../styles/DarkMode.css";
 import { Feedback } from './pages/feedback';
 import AccountView from "./pages/accountView";
