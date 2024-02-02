@@ -119,3 +119,21 @@ class Account(db.Model):
         accounts = [Account(account_type=acc['account_type'], balance=acc['balance'], user=user) for acc in default_accounts]
         db.session.add_all(accounts)
         db.session.commit()
+
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    opinion = db.Column(db.String(50), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    message = db.Column(db.String(500), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "opinion": self.opinion,
+            "category": self.category,
+            "message": self.message,
+            "user_id": self.user_id,
+            "created_at": self.created_at.isoformat()  # Format the date to string
+        }

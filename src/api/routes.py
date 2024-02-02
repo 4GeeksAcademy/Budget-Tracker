@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import Transaction, db, User, Account, Budget
+from api.models import Feedback, Transaction, db, User, Account, Budget
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -362,3 +362,36 @@ def get_account_details(account_id):
 
 if __name__ == '__main__':
     api.run(debug=True)
+
+@api.route('/feedback', methods=['POST'])
+@jwt_required()  # If authentication is needed
+def handle_feedback():
+    current_user_id = get_jwt_identity()  # Get user ID from JWT
+    data = request.get_json()
+
+    # Validate and extract feedback data
+    opinion = data.get('opinion')
+    category = data.get('category')
+    message = data.get('message')
+    
+    # You may want to perform additional validation here
+
+    if not all([opinion, category, message]):
+        return jsonify({"error": "Missing data for feedback"}), 400
+
+    # Create new Feedback object
+    feedback = Feedback(
+        opinion=opinion,
+        category=category,
+        message=message,
+        user_id=current_user_id  # Use the ID from JWT or lookup the user
+    )
+
+    # Add to the session and commit to the database
+    db.session.add(feedback)
+    try:
+        db.session.commit()
+        return jsonify(feedback.serialize()), 201  # Use 201 to indicate "Created"
+    except Exception as e:
+        db.session.rollback()  # Rollback in case of error
+        return jsonify({"error": str(e)}), 500
