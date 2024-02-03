@@ -1,74 +1,79 @@
 .feedback-form-container {
-    background: #fff; /* White background for the container */
-    padding: 30px; /* Padding around the form */
-    border-radius: 15px; /* Rounded corners for the container */
-    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* A subtle shadow */
-    margin-top: 100px; /* Margin at the top of the form */
-    max-width: 500px;
-    margin-left: 1rem;
-  }
-  
-  .feedback-form-container h2 {
-    color: #333; /* Dark color for the heading */
-    margin-bottom: 15px; /* Space below the heading */
-  }
-  
-  .feedback-form-container form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .opinion-options label {
-    font-size: 24px; /* Adjust the size of the emojis */
-    cursor: pointer; /* Change cursor to pointer when hovering over the labels */
-    margin-right:20px; /* Space out the emojis */
-     /* Prevent text selection */
-  }
-  
-  .opinion-options label.selected {
-    border: 2px solid blue; /* Change as needed */
-    box-shadow: 0 0 10px rgba(0,0,255,0.5); /* Optional: adds a glow effect */
-  }
+  background: #fff; /* White background for the container */
+  padding: 30px; /* Padding around the form */
+  border-radius: 15px; /* Rounded corners for the container */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* A subtle shadow */
+  margin-top: 100px; /* Margin at the top of the form */
+  max-width: 500px;
+  margin-left: 1rem;
+}
 
-  .opinion-options label:hover {
-    opacity: 0.7; /* Visual feedback on hover */
-  }
-  
-  .opinion-options input[type="radio"] {
-    display: none; /* Hide the radio button */
-  }
-  
-  .opinion-options input[type="radio"]:checked + label {
-    border: 2px solid #4caf50; /* Style for the selected emoji */
-    border-radius: 50%; /* Round borders for emoji selection */
-  }
-  
-  select,
-  textarea {
-    padding: 10px;
-    margin-top: 10px; /* Spacing above the select and textarea */
-    margin-bottom: 10px; /* Spacing below the select and textarea */
-    border: 1px solid #ddd; /* A subtle border */
-    border-radius: 5px; /* Slightly rounded borders */
-    width: 100%; /* Full width */
-  }
-  
-  textarea {
-    resize: vertical; /* Allow vertical resize */
-    min-height: 100px; /* Minimum height */
-  }
-  
-  button[type="submit"] {
-    background-color: #4caf50; /* Green background */
-    color: white; /* White text */
-    border: none; /* No border */
-    padding: 10px 20px; 
-    text-transform: uppercase; /* Uppercase text */
-    border-radius: 5px; /* Slightly rounded borders */
-    cursor: pointer; /* Pointer cursor on hover */
-    margin-top: 10px; /* Space above the button */
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #45a049; /* Darker green on hover */
-  }
+.feedback-form-container h2 {
+  color: #333; /* Dark color for the heading */
+  margin-bottom: 15px; /* Space below the heading */
+}
+
+.feedback-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.opinion-options label {
+  font-size: 24px; /* Adjust the size of the emojis */
+  cursor: pointer; /* Change cursor to pointer when hovering over the labels */
+  margin-right: 20px; /* Space out the emojis */
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.opinion-options label.selected {
+  opacity: 1;
+}
+
+.opinion-options label:hover {
+  opacity: 1!important; /* Visual feedback on hover */
+}
+
+.opinion-options input[type="radio"] {
+  position: absolute;
+  margin: -1px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.opinion-options input[type="radio"]:checked + label {
+  border: 2px solid #4caf50; /* Style for the selected emoji */
+  border-radius: 50%; /* Round borders for emoji selection */
+  opacity: 1;
+}
+
+select,
+textarea {
+  padding: 10px;
+  margin-top: 10px; /* Spacing above the select and textarea */
+  margin-bottom: 10px; /* Spacing below the select and textarea */
+  border: 1px solid #ddd; /* A subtle border */
+  border-radius: 5px; /* Slightly rounded borders */
+  width: 100%; /* Full width */
+}
+
+textarea {
+  resize: vertical; /* Allow vertical resize */
+  min-height: 100px; /* Minimum height */
+}
+
+button[type="submit"] {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  border: none; /* No border */
+  padding: 10px 20px;
+  text-transform: uppercase; /* Uppercase text */
+  border-radius: 5px; /* Slightly rounded borders */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-top: 10px; /* Space above the button */
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
