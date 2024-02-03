@@ -8,6 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       transactions: [],
       account_details: [],
       budgets: [],
+      activity: [],
       isDarkMode: false,
     },
 
@@ -125,7 +126,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: "Bearer " + store.token,
           },
         };
-      
+
         try {
           // fetching data from the backend
           const resp = await fetch(`${apiUrl}/api/get_budgets`, opts);
@@ -167,6 +168,39 @@ const getState = ({ getStore, getActions, setStore }) => {
           return updatedCashBalance;
         } catch (error) {
           console.error("Error updating cash balance", error);
+          throw error;
+        }
+      },
+
+      updateCreditBalance: async (updateAmount) => {
+        const store = getStore();
+        const opts = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+          body: JSON.stringify({ update_amount: updateAmount }),
+        };
+
+        try {
+          // Make a request to update the credit balance
+          const resp = await fetch(`${apiUrl}/api/update_credit_balance`, opts);
+          const data = await resp.json();
+
+          const updatedCreditBalance = data.updatedCreditBalance;
+
+          setStore((prevState) => ({
+            balances: {
+              ...prevState.balances,
+              Credit: updatedCreditBalance,
+            },
+          }));
+
+          // Return the updated balance if needed
+          return updatedCreditBalance;
+        } catch (error) {
+          console.error("Error updating credit balance", error);
           throw error;
         }
       },
@@ -457,14 +491,17 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: "Bearer " + store.token,
           },
-          body: JSON.stringify({ budget_category: budgetCategory, amount: amount }),
+          body: JSON.stringify({
+            budget_category: budgetCategory,
+            amount: amount,
+          }),
         };
-      
+
         try {
           // Make a request to add a new budget
           const resp = await fetch(`${apiUrl}/api/new_budget`, opts);
           const data = await resp.json();
-      
+
           // Update the store with the new budget
           setStore((prevState) => ({
             budgets: {
@@ -472,7 +509,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               [budgetCategory]: amount,
             },
           }));
-      
+
           return data;
         } catch (error) {
           console.error("Error adding new budget", error);
@@ -488,14 +525,20 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: "Bearer " + store.token,
           },
-          body: JSON.stringify({ budget_category: budgetCategory, amount: amount }),
+          body: JSON.stringify({
+            budget_category: budgetCategory,
+            amount: amount,
+          }),
         };
-      
+
         try {
           // Make a request to edit an existing budget
-          const resp = await fetch(`${apiUrl}/api/edit_budget/${budgetId}`, opts);
+          const resp = await fetch(
+            `${apiUrl}/api/edit_budget/${budgetId}`,
+            opts
+          );
           const data = await resp.json();
-      
+
           // Update the store with the edited budget
           setStore((prevState) => ({
             budgets: {
@@ -503,7 +546,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               [budgetCategory]: amount,
             },
           }));
-      
+
           return data;
         } catch (error) {
           console.error("Error editing budget", error);
@@ -601,33 +644,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         const data = await res.json();
 
         return data;
-      },
-
-      postFeedback: async ({ feedback, category, opinion }) => {
-        const store = getStore();
-        const opts = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${store.token}`, // If your endpoint requires authentication
-          },
-          body: JSON.stringify({ feedback, category, opinion }),
-        };
-      
-        try {
-          const resp = await fetch(`${store.apiUrl}/feedback`, opts);
-          if (resp.status !== 200) {
-            // Handle non-200 responses
-            throw new Error('Failed to send feedback');
-          }
-      
-          const data = await resp.json();
-          // Handle success
-          console.log('Feedback sent successfully', data);
-        } catch (error) {
-          // Handle errors
-          console.error('Error sending feedback', error);
-        }
       },
     },
   };

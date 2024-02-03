@@ -1,5 +1,5 @@
 .dark-page {
-    background-color: #07223e; /* Dark background color */
+    background-color: #081426; /* Dark background color */
   }
 
 .login-box {
@@ -17,13 +17,13 @@
 }
 
 .login-box .btn-primary {
-    background-color: #0056b3; /* Darker shade of blue for the button */
+    background-color: #00AA93; /* Darker shade of blue for the button */
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .login-box .btn-primary:hover {
-    background-color: #003d82; /* Even darker on hover */
+    background-color: #007f6e;/* Even darker on hover */
 }
 
 .login-box .link-info {

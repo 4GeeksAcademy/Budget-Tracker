@@ -1,4 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
+   from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
@@ -12,6 +12,7 @@ class User(db.Model):
     budgets = db.relationship('Budget', backref='user', lazy=True)
     transactions = db.relationship('Transaction', backref='user', lazy=True)
     accounts = db.relationship('Account', backref='user', lazy=True)
+    activities = db.relationship('Activity', backref='user', lazy=True)
 
 
     def __repr__(self):
@@ -25,8 +26,10 @@ class User(db.Model):
             "lastName": self.lastName,
             "budgets": [budget.serialize() for budget in self.budgets],
             "transactions": [transaction.serialize() for transaction in self.transactions],
-            "accounts": [account.serialize() for account in self.accounts]
-            # do not serialize the password, it's a security breach
+            "accounts": [account.serialize() for account in self.accounts],
+            "activities": [activity.serialize() for activity in self.activities]
+
+           # do not serialize the password, it's a security breach
         }
     
 class Budget(db.Model):
@@ -119,21 +122,3 @@ class Account(db.Model):
         accounts = [Account(account_type=acc['account_type'], balance=acc['balance'], user=user) for acc in default_accounts]
         db.session.add_all(accounts)
         db.session.commit()
-
-class Feedback(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    opinion = db.Column(db.String(50), nullable=False)
-    category = db.Column(db.String(50), nullable=False)
-    message = db.Column(db.String(500), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "opinion": self.opinion,
-            "category": self.category,
-            "message": self.message,
-            "user_id": self.user_id,
-            "created_at": self.created_at.isoformat()  # Format the date to string
-        }

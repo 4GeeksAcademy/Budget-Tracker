@@ -57,9 +57,6 @@ const AddTransaction = () => {
       actions.getTransactions();
   }, [store.token]);
 
-  console.log('Store Balances: ', store.balances)
-  console.log('Store Transactions: ', store.transactions)
-
   return (
     <div className="add-transaction">
       <ButtonGroup className="mb-2">
