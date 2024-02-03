@@ -37,13 +37,11 @@ export const Settings = () => {
             <NavbarLeft />
           </Col>
 
-          <Col className="main-column pt-5 settings">
-            <h1>Settings</h1>
+          <Col className="main-column pt-5 mt-5 settings">
             <Tabs
               id="controlled-tab-example"
               activeKey={key}
               onSelect={(k) => setKey(k)}
-              className="mb-3"
             >
               <Tab eventKey="profile" title="Personal Info">
                 <PersonalInfo />

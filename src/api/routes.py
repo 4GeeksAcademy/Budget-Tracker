@@ -402,33 +402,36 @@ def get_activity():
         return jsonify({"User": user_activities})
     else:
         return jsonify({"Message": "Error Finding user"})
-
-
-if __name__ == '__main__':
-    api.run(debug=True)
+    
 
 @api.route('/feedback', methods=['POST'])
 @jwt_required()  # If authentication is needed
 def handle_feedback():
-    current_user_id = get_jwt_identity()  # Get user ID from JWT
+    current_user_email = get_jwt_identity()  # Get user email from JWT
     data = request.get_json()
 
     # Validate and extract feedback data
     opinion = data.get('opinion')
     category = data.get('category')
     message = data.get('message')
-    
+
     # You may want to perform additional validation here
 
     if not all([opinion, category, message]):
         return jsonify({"error": "Missing data for feedback"}), 400
+
+    # Look up the user based on their email
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
 
     # Create new Feedback object
     feedback = Feedback(
         opinion=opinion,
         category=category,
         message=message,
-        user_id=current_user_id  # Use the ID from JWT or lookup the user
+        user_id=user.id  # Use the ID from the user
     )
 
     # Add to the session and commit to the database
@@ -439,3 +442,7 @@ def handle_feedback():
     except Exception as e:
         db.session.rollback()  # Rollback in case of error
         return jsonify({"error": str(e)}), 500
+
+
+if __name__ == '__main__':
+    api.run(debug=True)
