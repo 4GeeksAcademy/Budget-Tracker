@@ -1,5 +1,4 @@
 const getState = ({ getStore, getActions, setStore }) => {
-
   const apiUrl = "https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev";
   return {
     store: {
@@ -647,8 +646,6 @@ const getState = ({ getStore, getActions, setStore }) => {
         return data;
       },
 
-
- 
       trackUserActivity: async () => {
         const store = getStore();
         const opts = {
@@ -717,31 +714,33 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("Error getting all user activities", error);
         }
       },
-      
-         postFeedback: async ({ feedback, category, opinion }) => {
+
+      postFeedback: async ({ message, category, opinion }) => {
         const store = getStore();
         const opts = {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`, // If your endpoint requires authentication
           },
-          body: JSON.stringify({ feedback, category, opinion }),
+          body: JSON.stringify({ message, category, opinion }),
         };
-      
+
         try {
-          const resp = await fetch(`${store.apiUrl}/feedback`, opts);
-          if (resp.status !== 200) {
-            // Handle non-200 responses
-            throw new Error('Failed to send feedback');
+          const resp = await fetch(`${apiUrl}/api/feedback`, opts);
+          if (!resp.ok) {
+            // If the response is not ok, throw an error with the status text
+            throw new Error(`Failed to send feedback: ${resp.statusText}`);
           }
-      
+
           const data = await resp.json();
           // Handle success
-          console.log('Feedback sent successfully', data);
+          console.log("Feedback sent successfully", data);
+          return resp; // Ensure a response is always returned
         } catch (error) {
           // Handle errors
-          console.error('Error sending feedback', error);
+          console.error("Error sending feedback", error);
+          throw error; // Re-throw the error to be caught in handleSubmit
         }
       },
     },
