@@ -1,6 +1,7 @@
 import os
 from flask_admin import Admin
-from .models import Account, db, User, Budget, Transaction, Feedback
+
+from .models import Account, db, User, Budget, Transaction, Feedback, Activity
 from flask_admin.contrib.sqla import ModelView
 
 class CustomBudgetView(ModelView):
@@ -52,6 +53,7 @@ def setup_admin(app):
     admin.add_view(ModelView(Account, db.session))
     admin.add_view(CustomTransactionView(Transaction, db.session))
     admin.add_view(CustomFeedbackView(Feedback, db.session))
+    admin.add_view(ModelView(Activity, db.session))
 
     # You can duplicate that line to add mew models
     # admin.add_view(ModelView(YourModelName, db.session))

@@ -7,6 +7,7 @@ export const AccountButtons = () => {
   const [updateAmount, setUpdateAmount] = useState("");
   const [showUpdate, setShowUpdate] = useState(false);
   const [showUpdateSavings, setShowUpdateSavings] = useState(false);
+  const [showUpdateCredit, setShowUpdateCredit] = useState(false);
 
   const cashBalance = store.balances.find(
     (b) => b.account_type === "Cash"
@@ -55,6 +56,21 @@ export const AccountButtons = () => {
     } catch (error) {
       console.error("Error:", error); // Log the error
       alert("Failed to update savings balance");
+    }
+  };
+
+  const handleUpdateCreditBalance = async () => {
+    try {
+      // Ensure the update amount is negative
+      const updateAmountValue = updateAmount > 0 ? -updateAmount : updateAmount;
+      await actions.updateCreditBalance(updateAmountValue);
+      // Reload the account balance from the store
+      actions.getBalances();
+      setShowUpdateCredit(false);
+      setUpdateAmount(""); // Clear the updateAmount field
+    } catch (error) {
+      console.error("Error:", error); // Log the error
+      alert("Failed to update credit balance");
     }
   };
 
@@ -112,9 +128,52 @@ export const AccountButtons = () => {
         </Col>
         <Col>
           <div className="right-containers red">
-            <div className="right-items">
+            <div className="account-items">
+              <div
+                className="icon-container"
+                id="credit"
+                onClick={() =>
+                  setShowUpdateCredit(
+                    (prevShowUpdateCredit) => !prevShowUpdateCredit
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
+                <i className="fa-solid fa-plus"></i>
+              </div>
               <h3>$ {formatMoney(creditBalance)}</h3>
               <span>CREDIT CARDS</span>
+              <Modal
+                size="sm"
+                show={showUpdateCredit}
+                onHide={() => setShowUpdateCredit(false)}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Add to Credit Balance</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <input
+                    className="w-100 mb-2"
+                    type="number"
+                    value={updateAmount}
+                    onChange={(e) => setUpdateAmount(e.target.value)}
+                    placeholder="0.00"
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        handleUpdateCreditBalance();
+                      }
+                    }}
+                  />
+                  <Button
+                    className="me-2 px-3 w-100"
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={handleUpdateCreditBalance}
+                  >
+                    Add to Credit
+                  </Button>
+                </Modal.Body>
+              </Modal>
             </div>
           </div>
         </Col>

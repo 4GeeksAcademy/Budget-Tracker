@@ -164,6 +164,34 @@ def update_cash_balance():
             return jsonify({"error": "Cash account not found"}), 404
     else:
         return jsonify({"error": "User not found"}), 404
+    
+@api.route('/update_credit_balance', methods=['PUT'])
+@jwt_required()
+def update_credit_balance():
+    current_user_email = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user_email).first()
+
+    if user:
+        credit_account = next((account for account in user.accounts if account.account_type == 'Credit'), None)
+
+        if credit_account:
+            try:
+                # Get the amount to update from the request data
+                update_amount = float(request.json.get('update_amount'))
+
+                # Update the credit balance
+                credit_account.balance += update_amount
+                db.session.commit()
+
+                return jsonify({"message": "Credit balance updated successfully",
+                                "updatedCreditBalance": credit_account.balance})
+            except ValueError:
+                return jsonify({"error": "Invalid update amount. Must be a valid number"}), 400
+        else:
+            return jsonify({"error": "Credit account not found"}), 404
+    else:
+        return jsonify({"error": "User not found"}), 404
 
 
 @api.route('/update_savings_balance', methods=['PUT'])
@@ -359,6 +387,22 @@ def get_account_details(account_id):
             return jsonify({"error": "Account not found"}), 404
     else:
         return jsonify({"error": "User not found"}), 404
+
+
+@api.route('/get_all_user_activities', methods=['GET'])
+@jwt_required()
+def get_activity():
+    current_user = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user).first()
+
+    if user:
+        user_activities = [activity.serialize()
+                           for activity in user.activities]
+        return jsonify({"User": user_activities})
+    else:
+        return jsonify({"Message": "Error Finding user"})
+
 
 if __name__ == '__main__':
     api.run(debug=True)

@@ -1,5 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
-  const apiUrl = "https://studious-waffle-wr7w69jj4v4hjpq-3001.app.github.dev/";
+
+  const apiUrl =
+    "https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev";
   return {
     store: {
       user_info: null,
@@ -8,6 +10,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       transactions: [],
       account_details: [],
       budgets: [],
+      activity: [],
       isDarkMode: false,
     },
 
@@ -125,7 +128,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: "Bearer " + store.token,
           },
         };
-      
+
         try {
           // fetching data from the backend
           const resp = await fetch(`${apiUrl}/api/get_budgets`, opts);
@@ -167,6 +170,39 @@ const getState = ({ getStore, getActions, setStore }) => {
           return updatedCashBalance;
         } catch (error) {
           console.error("Error updating cash balance", error);
+          throw error;
+        }
+      },
+
+      updateCreditBalance: async (updateAmount) => {
+        const store = getStore();
+        const opts = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+          body: JSON.stringify({ update_amount: updateAmount }),
+        };
+
+        try {
+          // Make a request to update the credit balance
+          const resp = await fetch(`${apiUrl}/api/update_credit_balance`, opts);
+          const data = await resp.json();
+
+          const updatedCreditBalance = data.updatedCreditBalance;
+
+          setStore((prevState) => ({
+            balances: {
+              ...prevState.balances,
+              Credit: updatedCreditBalance,
+            },
+          }));
+
+          // Return the updated balance if needed
+          return updatedCreditBalance;
+        } catch (error) {
+          console.error("Error updating credit balance", error);
           throw error;
         }
       },
@@ -457,14 +493,17 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: "Bearer " + store.token,
           },
-          body: JSON.stringify({ budget_category: budgetCategory, amount: amount }),
+          body: JSON.stringify({
+            budget_category: budgetCategory,
+            amount: amount,
+          }),
         };
-      
+
         try {
           // Make a request to add a new budget
           const resp = await fetch(`${apiUrl}/api/new_budget`, opts);
           const data = await resp.json();
-      
+
           // Update the store with the new budget
           setStore((prevState) => ({
             budgets: {
@@ -472,7 +511,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               [budgetCategory]: amount,
             },
           }));
-      
+
           return data;
         } catch (error) {
           console.error("Error adding new budget", error);
@@ -488,14 +527,20 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Content-Type": "application/json",
             Authorization: "Bearer " + store.token,
           },
-          body: JSON.stringify({ budget_category: budgetCategory, amount: amount }),
+          body: JSON.stringify({
+            budget_category: budgetCategory,
+            amount: amount,
+          }),
         };
-      
+
         try {
           // Make a request to edit an existing budget
-          const resp = await fetch(`${apiUrl}/api/edit_budget/${budgetId}`, opts);
+          const resp = await fetch(
+            `${apiUrl}/api/edit_budget/${budgetId}`,
+            opts
+          );
           const data = await resp.json();
-      
+
           // Update the store with the edited budget
           setStore((prevState) => ({
             budgets: {
@@ -503,7 +548,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               [budgetCategory]: amount,
             },
           }));
-      
+
           return data;
         } catch (error) {
           console.error("Error editing budget", error);
@@ -603,7 +648,78 @@ const getState = ({ getStore, getActions, setStore }) => {
         return data;
       },
 
-      postFeedback: async ({ feedback, category, opinion }) => {
+
+ 
+      trackUserActivity: async () => {
+        const store = getStore();
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+        };
+
+        try {
+          const res = await fetch(`${apiUrl}/api/track_user_activity`, opts);
+
+          // Check if the response is ok before parsing the body
+          if (!res.ok) {
+            const errorBody = await res.text(); // Parse the body as text
+            throw new Error(`Server responded with status code ${res.status}`);
+          }
+
+          const data = await res.json();
+        } catch (error) {
+          console.error("Error tracking user activity", error);
+        }
+      },
+
+      getAllUserActivity: async () => {
+        const store = getStore();
+        const opts = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+        };
+
+        try {
+          const resp = await fetch(
+            `${apiUrl}/api/get_all_user_activities`,
+            opts
+          );
+
+          const data = await resp.json();
+
+          setStore({ activity: data });
+        } catch (error) {
+          console.error("Error getting all user activities", error);
+        }
+      },
+
+      deleteUserAccount: async () => {
+        const store = getStore();
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+        };
+
+        try {
+          const resp = await fetch(`${apiUrl}/api/delete_account`, opts);
+          const data = await resp.json();
+          setStore({ token: null });
+          return data;
+        } catch (error) {
+          console.error("Error getting all user activities", error);
+        }
+      },
+      
+         postFeedback: async ({ feedback, category, opinion }) => {
         const store = getStore();
         const opts = {
           method: 'POST',
