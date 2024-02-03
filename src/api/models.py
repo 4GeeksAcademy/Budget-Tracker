@@ -123,8 +123,6 @@ class Account(db.Model):
         db.session.add_all(accounts)
         db.session.commit()
 
-
-
 class Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.String(120), nullable=False)
@@ -138,4 +136,22 @@ class Activity(db.Model):
             "time": self.time,
             "device": self.device,
             "ip": self.ip,
+        }
+        
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    opinion = db.Column(db.String(50), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    message = db.Column(db.String(500), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "opinion": self.opinion,
+            "category": self.category,
+            "message": self.message,
+            "user_id": self.user_id,
+            "created_at": self.created_at.isoformat()  # Format the date to string
         }
