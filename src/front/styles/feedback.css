@@ -19,10 +19,15 @@
   .opinion-options label {
     font-size: 24px; /* Adjust the size of the emojis */
     cursor: pointer; /* Change cursor to pointer when hovering over the labels */
-    margin-right: 10px; /* Space out the emojis */
-    user-select: none; /* Prevent text selection */
+    margin-right:20px; /* Space out the emojis */
+     /* Prevent text selection */
   }
   
+  .opinion-options label.selected {
+    border: 2px solid blue; /* Change as needed */
+    box-shadow: 0 0 10px rgba(0,0,255,0.5); /* Optional: adds a glow effect */
+  }
+
   .opinion-options label:hover {
     opacity: 0.7; /* Visual feedback on hover */
   }

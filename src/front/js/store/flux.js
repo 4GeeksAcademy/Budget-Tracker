@@ -1,4 +1,5 @@
 const getState = ({ getStore, getActions, setStore }) => {
+
   const apiUrl =
     "https://turbo-journey-pjrw9qq9677p3rv56-3001.app.github.dev";
   return {
@@ -647,6 +648,8 @@ const getState = ({ getStore, getActions, setStore }) => {
         return data;
       },
 
+
+ 
       trackUserActivity: async () => {
         const store = getStore();
         const opts = {
@@ -713,6 +716,33 @@ const getState = ({ getStore, getActions, setStore }) => {
           return data;
         } catch (error) {
           console.error("Error getting all user activities", error);
+        }
+      },
+      
+         postFeedback: async ({ feedback, category, opinion }) => {
+        const store = getStore();
+        const opts = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${store.token}`, // If your endpoint requires authentication
+          },
+          body: JSON.stringify({ feedback, category, opinion }),
+        };
+      
+        try {
+          const resp = await fetch(`${store.apiUrl}/feedback`, opts);
+          if (resp.status !== 200) {
+            // Handle non-200 responses
+            throw new Error('Failed to send feedback');
+          }
+      
+          const data = await resp.json();
+          // Handle success
+          console.log('Feedback sent successfully', data);
+        } catch (error) {
+          // Handle errors
+          console.error('Error sending feedback', error);
         }
       },
     },

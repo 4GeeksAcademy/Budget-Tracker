@@ -1,6 +1,7 @@
 import os
 from flask_admin import Admin
-from .models import Account, db, User, Budget, Transaction, Activity
+
+from .models import Account, db, User, Budget, Transaction, Feedback, Activity
 from flask_admin.contrib.sqla import ModelView
 
 class CustomBudgetView(ModelView):
@@ -35,10 +36,15 @@ class CustomTransactionView(ModelView):
 class CustomUserView(ModelView):
     column_list = ['id', 'email', 'firstName', 'lastName']
 
+class CustomFeedbackView(ModelView):
+    column_list = ['id', 'opinion', 'category', 'message', 'user_id', 'created_at']    
+
 def setup_admin(app):
     app.secret_key = os.environ.get('FLASK_APP_KEY', 'sample key')
     app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
     admin = Admin(app, name='BT Admin', template_mode='bootstrap4')
+
+    
 
     
     # Add your models here, for example this is how we add a the User model to the admin
@@ -46,6 +52,7 @@ def setup_admin(app):
     admin.add_view(CustomBudgetView(Budget, db.session))
     admin.add_view(ModelView(Account, db.session))
     admin.add_view(CustomTransactionView(Transaction, db.session))
+    admin.add_view(CustomFeedbackView(Feedback, db.session))
     admin.add_view(ModelView(Activity, db.session))
 
     # You can duplicate that line to add mew models

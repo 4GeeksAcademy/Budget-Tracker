@@ -8,27 +8,57 @@ import '../../styles/feedback.css';
 
 export const Feedback = () => {
   const { actions } = useContext(Context);
-  const [feedback, setFeedback] = useState('');
-  const [category, setCategory] = useState('');
-  const [opinion, setOpinion] = useState('');
+  const [feedbackMessage, setFeedbackMessage] = useState(''); // Renamed for clarity
+  const [feedbackCategory, setFeedbackCategory] = useState(''); // Renamed for clarity
+  const [feedbackOpinion, setFeedbackOpinion] = useState(''); // Renamed for clarity
 
-  const handleFeedbackChange = (e) => {
-    setFeedback(e.target.value);
+  const handleFeedbackMessageChange = (e) => {
+    setFeedbackMessage(e.target.value);
   };
 
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
+  const handleFeedbackCategoryChange = (e) => {
+    setFeedbackCategory(e.target.value);
   };
 
-  const handleOpinionChange = (event) => {
-    setOpinion(event.target.value);
+  const handleFeedbackOpinionChange = (event) => {
+    setFeedbackOpinion(event.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Submit feedback to the server or perform an action
-    console.log('Submitting feedback:', feedback, 'Category:', category, 'Opinion:', opinion);
-    // actions.postFeedback({ feedback, category, opinion }); // Example action to send feedback to backend
+  
+    try {
+      // Construct the feedback object to match your backend expectations
+      const feedbackData = {
+        opinion: opinion, // make sure these match the state variables you've declared and are using
+        category: category,
+        message: feedback,
+      };
+  
+      // Send the feedback data to the backend using the postFeedback action
+      const response = await actions.postFeedback(feedbackData);
+  
+      // If the response is okay and feedback is submitted
+      if (response.ok) {
+        // Here you might want to clear the form
+        setFeedback('');
+        setCategory('');
+        setOpinion('');
+        
+        // And possibly give some user feedback, like a success message
+        alert('Thank you for your feedback!');
+  
+        // If you have a redirect or further logic, place it here
+      } else {
+        // If the server response is not ok, throw an error
+        const errorData = await response.json(); // assuming the server sends JSON with error details
+        throw new Error(errorData.message || 'Something went wrong');
+      }
+    } catch (error) {
+      // Handle any errors that occurred during submission
+      console.error('Submission error:', error);
+      alert('Failed to submit feedback: ' + error.message);
+    }
   };
 
   return (
@@ -51,8 +81,8 @@ export const Feedback = () => {
                       type="radio"
                       name="opinion"
                       value="sad"
-                      checked={opinion === "sad"}
-                      onChange={handleOpinionChange}
+                      checked={feedbackOpinion === "sad"}
+                      onChange={handleFeedbackOpinionChange}
                     /> 😔
                   </label>
                   <label>
@@ -60,8 +90,8 @@ export const Feedback = () => {
                       type="radio"
                       name="opinion"
                       value="neutral"
-                      checked={opinion === "neutral"}
-                      onChange={handleOpinionChange}
+                      checked={feedbackOpinion === "neutral"}
+                      onChange={handleFeedbackOpinionChange}
                     /> 😐
                   </label>
                   <label>
@@ -69,8 +99,8 @@ export const Feedback = () => {
                       type="radio"
                       name="opinion"
                       value="happy"
-                      checked={opinion === "happy"}
-                      onChange={handleOpinionChange}
+                      checked={feedbackOpinion === "happy"}
+                      onChange={handleFeedbackOpinionChange}
                     /> 🙂
                   </label>
                   <label>
@@ -78,15 +108,15 @@ export const Feedback = () => {
                       type="radio"
                       name="opinion"
                       value="very-happy"
-                      checked={opinion === "very-happy"}
-                      onChange={handleOpinionChange}
+                      checked={feedbackOpinion === "very-happy"}
+                      onChange={handleFeedbackOpinionChange}
                     /> 😄
                   </label>
                 </div>
               </div>
               <div>
                 <p>Please select your feedback category below:</p>
-                <select value={category} onChange={handleCategoryChange}>
+                <select value={feedbackCategory} onChange={handleFeedbackCategoryChange}>
                   <option value="suggestion">Suggestion</option>
                   <option value="issue">Something is not quite right</option>
                   <option value="compliment">Compliment</option>
@@ -94,7 +124,7 @@ export const Feedback = () => {
               </div>
               <div>
                 <p>Please leave your feedback below:</p>
-                <textarea value={feedback} onChange={handleFeedbackChange} />
+                <textarea value={feedbackMessage} onChange={handleFeedbackMessageChange} />
               </div>
               <button type="submit">Send</button>
             </form>
