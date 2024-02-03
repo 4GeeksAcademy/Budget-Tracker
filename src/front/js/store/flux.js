@@ -645,6 +645,102 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         return data;
       },
+
+<<<<<<<<< Temporary merge branch 1
+      trackUserActivity: async () => {
+        const store = getStore();
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+        };
+
+        try {
+          const res = await fetch(`${apiUrl}/api/track_user_activity`, opts);
+
+          // Check if the response is ok before parsing the body
+          if (!res.ok) {
+            const errorBody = await res.text(); // Parse the body as text
+            throw new Error(`Server responded with status code ${res.status}`);
+          }
+
+          const data = await res.json();
+        } catch (error) {
+          console.error("Error tracking user activity", error);
+        }
+      },
+
+      getAllUserActivity: async () => {
+        const store = getStore();
+        const opts = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+        };
+
+        try {
+          const resp = await fetch(
+            `${apiUrl}/api/get_all_user_activities`,
+            opts
+          );
+
+          const data = await resp.json();
+
+          setStore({ activity: data });
+        } catch (error) {
+          console.error("Error getting all user activities", error);
+        }
+      },
+
+      deleteUserAccount: async () => {
+        const store = getStore();
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + store.token,
+          },
+        };
+
+        try {
+          const resp = await fetch(`${apiUrl}/api/delete_account`, opts);
+          const data = await resp.json();
+          setStore({ token: null });
+          return data;
+        } catch (error) {
+          console.error("Error getting all user activities", error);
+=========
+      postFeedback: async ({ feedback, category, opinion }) => {
+        const store = getStore();
+        const opts = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${store.token}`, // If your endpoint requires authentication
+          },
+          body: JSON.stringify({ feedback, category, opinion }),
+        };
+      
+        try {
+          const resp = await fetch(`${store.apiUrl}/feedback`, opts);
+          if (resp.status !== 200) {
+            // Handle non-200 responses
+            throw new Error('Failed to send feedback');
+          }
+      
+          const data = await resp.json();
+          // Handle success
+          console.log('Feedback sent successfully', data);
+        } catch (error) {
+          // Handle errors
+          console.error('Error sending feedback', error);
+>>>>>>>>> Temporary merge branch 2
+        }
+      },
     },
   };
 };
