@@ -15,6 +15,7 @@ export const Feedback = () => {
   const [feedbackCategory, setFeedbackCategory] = useState(""); // Renamed for clarity
   const [feedbackOpinion, setFeedbackOpinion] = useState(""); // Renamed for clarity
   const [isSubmitted, setIsSubmitted] = useState(false); //state variable to check if the form is submitted
+  const [opinionError, setOpinionError] = useState("");
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -34,16 +35,25 @@ export const Feedback = () => {
     setFeedbackCategory(e.target.value);
   };
 
-  const handleFeedbackOpinionChange = (event) => {
-    setFeedbackOpinion(event.target.value);
-  };
+  function handleFeedbackOpinionChange(e) {
+    const labels = document.querySelectorAll(".opinion-options label");
+    labels.forEach((label) => label.classList.remove("selected"));
+
+    const checkedRadioButton = e.target;
+    const checkedLabel = checkedRadioButton.parentNode;
+    checkedLabel.classList.add("selected");
+
+    setFeedbackOpinion(e.target.value);
+    setOpinionError("");
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if all inputs have a value
-    if (!feedbackOpinion || !feedbackCategory || !feedbackMessage) {
-      alert("Please fill out all fields before submitting.");
+    // Check if a radio button is selected
+    if (!feedbackOpinion) {
+      // Update the opinionError state variable
+      setOpinionError("Please select an emoji.");
       return;
     }
 
@@ -92,7 +102,7 @@ export const Feedback = () => {
                           value="sad"
                           checked={feedbackOpinion === "sad"}
                           onChange={handleFeedbackOpinionChange}
-                        />{" "}
+                        />
                         😔
                       </label>
                       <label>
@@ -102,7 +112,7 @@ export const Feedback = () => {
                           value="neutral"
                           checked={feedbackOpinion === "neutral"}
                           onChange={handleFeedbackOpinionChange}
-                        />{" "}
+                        />
                         😐
                       </label>
                       <label>
@@ -112,7 +122,7 @@ export const Feedback = () => {
                           value="happy"
                           checked={feedbackOpinion === "happy"}
                           onChange={handleFeedbackOpinionChange}
-                        />{" "}
+                        />
                         🙂
                       </label>
                       <label>
@@ -122,7 +132,7 @@ export const Feedback = () => {
                           value="very-happy"
                           checked={feedbackOpinion === "very-happy"}
                           onChange={handleFeedbackOpinionChange}
-                        />{" "}
+                        />
                         😄
                       </label>
                     </div>
@@ -131,6 +141,7 @@ export const Feedback = () => {
                     <select
                       value={feedbackCategory}
                       onChange={handleFeedbackCategoryChange}
+                      required
                     >
                       <option value="" disabled hidden>
                         Select your feedback
@@ -147,9 +158,13 @@ export const Feedback = () => {
                       value={feedbackMessage}
                       onChange={handleFeedbackMessageChange}
                       placeholder="Drop your comments here..."
+                      required
                     />
                   </div>
-                  <button type="submit" style={{backgroundColor: '#00aa93'}}>Send</button>
+                  <button type="submit" style={{ backgroundColor: "#00aa93" }}>
+                    Submit
+                  </button>
+                  {opinionError && <span className="error">{opinionError}</span>}
                 </form>
               </>
             )}
