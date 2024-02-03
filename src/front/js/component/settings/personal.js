@@ -19,16 +19,18 @@ export const PersonalInfo = () => {
   };
 
   const deleteAccount = async () => {
-    actions.deleteUserAccount();
-    console.log("Account deleted");
-    navigate("/");
+    if (window.confirm("Are you sure you want to delete your account?")) {
+      actions.deleteUserAccount();
+      console.log("Account deleted");
+      navigate("/");
+    }
   };
 
   return (
     <section className="tab">
-      <div className="pt-2">
-        <h3>Personal Details</h3>
-        <div className="d-flex gap-5">
+      <div className="pt-1">
+        <h5 className="mb-4">Update Your Information</h5>
+        <div className="d-flex gap-4">
           <label className="d-flex flex-column">
             First Name
             <input
@@ -38,7 +40,7 @@ export const PersonalInfo = () => {
                   ? store.user_info.firstName
                   : "No information found"
               }
-              className="rounded border-dark p-1"
+              className="p-1"
               id="firstName"
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -51,16 +53,15 @@ export const PersonalInfo = () => {
                   ? store.user_info.lastName
                   : "No information found"
               }
-              className="rounded border-dark  p-1"
+              className="p-1"
               id="lastName"
               onChange={(e) => setLastName(e.target.value)}
             />
           </label>
         </div>
       </div>
-      <div className="pt-5">
-        <h3>Contact Details</h3>
-        <div className="d-flex gap-5">
+      <div className="pt-3">
+        <div className="d-flex gap-4">
           <label className="d-flex flex-column">
             Email Address
             <input
@@ -68,22 +69,36 @@ export const PersonalInfo = () => {
               placeholder={
                 store.user_info ? store.user_info.email : "No information found"
               }
-              className="rounded border-dark p-1"
+              className="p-1"
               id="email"
               onChange={(e) => setEmail(e.target.value)}
             />
           </label>
         </div>
       </div>
-      <div className="d-flex gap-4">
+      <div className="d-flex gap-2 pt-5">
         <button
-          className="p-1 mt-5 rounded bg-primary text-white"
+          style={{
+            backgroundColor: "#00AA93",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            padding: "10px 15px 10px 15px",
+            cursor: "pointer",
+          }}
           onClick={() => updateInfo()}
         >
           Update Info
         </button>
         <button
-          className="p-1 mt-5 rounded bg-danger text-white"
+          style={{
+            backgroundColor: "#E04A80",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            padding: "10px 15px 10px 15px",
+            cursor: "pointer",
+          }}
           onClick={() => deleteAccount()}
         >
           Delete Account

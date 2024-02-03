@@ -260,6 +260,11 @@ a {
   bottom: 25px;
 }
 
+.activities {
+  position: relative;
+  height: 710px;
+}
+
 .yellow {
   background-color: #f4ecda;
   border: solid;
@@ -283,6 +288,7 @@ a {
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 /* Right Column Elements */
@@ -304,6 +310,7 @@ a {
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 /* Settings */
@@ -313,8 +320,23 @@ a {
 
 .tab {
   background-color: white;
-  padding: 1rem;
-  border-radius: 0.5rem;
+  padding: 30px;
+  border-radius: 0 15px 15px 15px;
+  max-width: 900px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.nav-tabs {
+  border-bottom: 0px solid transparent;
+}
+.nav-tabs .nav-link {
+  border: 0px solid transparent;
+  font-size: 18px;
+}
+
+.nav-link {
+  color: #00aa93;
+  font-weight: 600;
 }
 
 /* Progress Bars */

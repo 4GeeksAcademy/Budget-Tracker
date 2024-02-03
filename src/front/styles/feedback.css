@@ -1,9 +1,11 @@
 .feedback-form-container {
     background: #fff; /* White background for the container */
-    padding: 20px; /* Padding around the form */
-    border-radius: 10px; /* Rounded corners for the container */
+    padding: 30px; /* Padding around the form */
+    border-radius: 15px; /* Rounded corners for the container */
     box-shadow: 0 0 10px rgba(0,0,0,0.1); /* A subtle shadow */
-    margin-top: 20px; /* Margin at the top of the form */
+    margin-top: 100px; /* Margin at the top of the form */
+    max-width: 500px;
+    margin-left: 1rem;
   }
   
   .feedback-form-container h2 {

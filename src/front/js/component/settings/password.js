@@ -51,14 +51,14 @@ export const Password = () => {
   return (
     <section className="tab">
       <div className="p-1">
-        <h3>Change Password</h3>
+        <h5 className="mb-4">Change Your Password</h5>
         <div className="d-flex flex-column gap-3 w-25">
           <label>
             Old Password
             <input
               type="text"
               placeholder="Enter old password"
-              className="rounded border-dark p-1"
+              className="p-1"
               onChange={(e) => setOldPassword(e.target.value)}
             />
           </label>
@@ -66,7 +66,7 @@ export const Password = () => {
             New Password
             <input
               placeholder="Enter new password "
-              className="rounded border-dark  p-1"
+              className="p-1"
               onChange={(e) => setNewPassword(e.target.value)}
             />
           </label>
@@ -75,7 +75,7 @@ export const Password = () => {
             <input
               type="text"
               placeholder="Confirm password"
-              className="rounded border-dark p-1"
+              className="p-1"
               onChange={(e) => setConfirmNewPassword(e.target.value)}
             />
           </label>
@@ -92,7 +92,15 @@ export const Password = () => {
       )}
 
       <button
-        className="p-1 mt-5 rounded bg-success text-white"
+        style={{
+          backgroundColor: "#00AA93",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          padding: "10px 15px 10px 15px",
+          cursor: "pointer",
+          marginTop: "30px",
+        }}
         onClick={() => updatePassword()}
       >
         Update Info
