@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import Stack from "react-bootstrap/Stack";
 import ChartExpenses from "./chartExpenses";
 import TotalExpensesYTD from "./totalExpenseYtd";
+import Markets from "./markets";
 import TotalIncomeYTD from "./totalIncomeYtd";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -38,6 +39,12 @@ export const RightContent = () => {
         <div className="right-items">
           <h5>Expenses by Categories</h5>
           <ChartExpenses />
+        </div>
+      </div>
+
+      <div className="right-containers">
+        <div className="right-items">
+          <Markets />
         </div>
       </div>
 
