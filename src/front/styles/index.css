@@ -167,6 +167,11 @@ a {
 
 /* Center Column Elements */
 
+.activity-list {
+  background-color: white;
+  padding: 1rem;
+}
+
 .accountBalance {
   font-size: 25px;
   font-weight: bold;

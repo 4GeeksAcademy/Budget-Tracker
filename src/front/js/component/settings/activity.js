@@ -54,7 +54,7 @@ export const Activity = () => {
         This is a list of devices that have logged into your account. Revoke any
         sessions that you do not recognize.
       </span>
-      <div style={{ backgroundColor: "white", padding: "1em" }}>
+      <div className="activity-list">
         <ListGroup className="d-flex flex-column gap-3">
           {currentItems.map((el, key) => (
             <div key={el.id}>
