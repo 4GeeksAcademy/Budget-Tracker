@@ -8,8 +8,6 @@ import Tabs from "react-bootstrap/Tabs";
 import NavbarLeft from "../component/navbarLeft";
 import { PersonalInfo } from "../component/settings/personal";
 import { Activity } from "../component/settings/activity";
-import { Privacy } from "../component/settings/privacy";
-import { Notifications } from "../component/settings/notifications";
 import { Password } from "../component/settings/password";
 import { useNavigate } from "react-router-dom";
 
@@ -51,12 +49,6 @@ export const Settings = () => {
               </Tab>
               <Tab eventKey="activity" title="Activity">
                 <Activity />
-              </Tab>
-              <Tab eventKey="privacy" title="Privacy">
-                <Privacy />
-              </Tab>
-              <Tab eventKey="notifications" title="Notifications">
-                <Notifications />
               </Tab>
             </Tabs>
           </Col>
