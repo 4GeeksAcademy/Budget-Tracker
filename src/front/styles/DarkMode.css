@@ -128,10 +128,44 @@ body.dark-mode .dashboard-item-active::after {
 
 
 body.dark-mode .feedback-form-container {
-  color: black; /* or #000 for black */
+  color: white;
+  background-color: #1E1E1E;
 }
 
 body.dark-mode .tab {
-  color: black; /* or any color that works with your dark mode */
+  color: white;
+  background-color: #1E1E1E;
 }
 
+body.dark-mode .nav-item .nav-link.active {
+  color: white;
+  background-color: #1E1E1E;
+}
+
+body.dark-mode .activity-list {
+  color: white;
+  background-color: #1E1E1E;
+}
+
+body.dark-mode .pagination-buttons .btn-outline-dark {
+  color: white;
+  border-color: #fff;
+}
+
+body.dark-mode .list-group-item {
+  color: white;
+  background-color: #1E1E1E;
+  border-color: white;
+}
+
+body.dark-mode input {
+  background-color: rgb(212, 212, 212);
+}
+
+body.dark-mode select {
+  background-color: rgb(212, 212, 212);
+}
+
+body.dark-mode textarea {
+  background-color: rgb(212, 212, 212);
+}
