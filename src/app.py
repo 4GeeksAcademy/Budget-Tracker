@@ -16,6 +16,10 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import create_access_token, JWTManager
 from user_agents import parse
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
+
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import *
 
 # from models import Person
 
@@ -208,8 +212,6 @@ def deleteUserAccount():
         return jsonify({"message": "User not found"}), 404
 
 
-
-
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
     if not os.path.isfile(os.path.join(static_file_dir, path)):
@@ -218,6 +220,72 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
+@app.route('/api/forgot-password', methods=['POST'])
+def forgot_password():
+    # Get the frontend URL from the environment variables
+    frontend_url = os.getenv('FRONTEND_URL')
+    data = request.get_json()
+    email = data['email']
+
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        # Generate a password reset token with a serializer
+        s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        passToken = s.dumps(email, salt='password-reset-salt')
+        
+        # Replace dots with dashes in the token so it safely works in the URL
+        passToken = passToken.replace('.', '-')
+
+        # Create a password reset link with the token
+        reset_link = frontend_url + "reset-password/" + passToken
+
+        # Create the email
+        message = Mail(
+            from_email='BudgetTracker@klassicstudio.com',
+            to_emails=email,
+            subject='Password Reset Request',
+            html_content=f'Click the link to reset your password: {reset_link}'
+        )
+
+        try:
+            # Send the email
+            sendgrid_client = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+            response = sendgrid_client.send(message)
+            return jsonify({"message": "Password reset email sent"}), 200
+        except Exception as e:
+            print(e)
+            return jsonify({'message': 'An error occurred while trying to send the email'}), 500
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
+@app.route('/api/reset-password/<token>', methods=['POST'])
+def reset_password(token):
+    s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+    # Replace dashes back to dots in the token to decode
+    token = token.replace('-', '.')
+
+    try:
+        # Verify the token
+        email = s.loads(token, salt='password-reset-salt', max_age=3600)
+    except SignatureExpired:
+        return jsonify({"error": "The password reset link is expired"}), 401
+    except BadTimeSignature:
+        return jsonify({"error": "The password reset link is invalid"}), 401
+
+    # Get the new password from the request data
+    data = request.get_json()
+    new_password = data['password']
+
+    # Find the user and update their password
+    user = User.query.filter_by(email=email).first()
+    if user:
+        user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        db.session.commit()
+        return jsonify({"message": "Password updated successfully"}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

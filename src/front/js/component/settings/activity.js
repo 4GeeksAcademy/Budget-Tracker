@@ -10,7 +10,6 @@ export const Activity = () => {
 
   useEffect(() => {
     actions.getAllUserActivity();
-    console.log("Activity from store", store.activity.User);
   }, []);
 
   const indexOfLastItem = currentPage * itemsPerPage;

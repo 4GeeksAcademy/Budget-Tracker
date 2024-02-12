@@ -25,6 +25,8 @@ pytz = "*"
 pyyaml = "*"
 ua-parser = "*"
 user-agents = "*"
+flask-mail = "*"
+sendgrid = "*"
 
 [requires]
 python_version = "3.10"
