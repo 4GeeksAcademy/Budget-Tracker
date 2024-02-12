@@ -1,6 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
@@ -8,30 +6,34 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "../../styles/login.css";
 import logo from "../../img/BudgetAppLogo6.png";
+import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export const Login = () => {
-  const { store, actions } = useContext(Context);
+export const ForgotPassword = () => {
+  const { actions } = useContext(Context);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    actions.login(email, password).then(() => {
-      actions.trackUserActivity();
-      actions.getAllUserActivity();
-      navigate("/dashboard");
-    });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const result = await actions.forgotPassword(email);
+      if (result) {
+        toast.success("Please check your email for the password reset link.");
+        navigate("/login");
+      } else {
+        toast.error("Failed to send password reset email");
+      }
+    } catch (error) {
+      console.error("Failed to send password reset email", error);
+      toast.error(
+        "An error occurred while trying to send the password reset email"
+      );
+    }
   };
-
-  useEffect(() => {
-    // This code runs after the component mounts
-    document.body.classList.add("dark-page");
-
-    // This function runs when the component unmounts
-    return () => {
-      document.body.classList.remove("dark-page");
-    };
-  }, []);
 
   return (
     <Container
@@ -54,7 +56,7 @@ export const Login = () => {
             className="login-box"
             style={{ maxWidth: "380px", margin: "auto" }}
           >
-            <h1 className="mb-4 text-center">Login</h1>
+            <h1 className="mb-4 text-center">Enter Email</h1>
             <Form.Group className="mb-3" controlId="email">
               <Form.Control
                 type="email"
@@ -63,32 +65,19 @@ export const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="password">
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
             <Button
               className="me-2 mb-4 w-100"
               variant="primary"
               type="submit"
-              onClick={handleLogin}
+              onClick={handleSubmit}
             >
-              Login
+              Send Password Reset Email
             </Button>
-            <span className="text-center">
-              <a href="/forgot-password" className="link-info">
-                Forgot Password?
-              </a>
-            </span>
             <p>
-              Don't have an account?
-              <a href="/signup" className="link-info link-register">
+              Remembered your password?
+              <a href="/login" className="link-info link-register">
                 {" "}
-                Register
+                Login
               </a>
             </p>
           </div>
@@ -97,3 +86,5 @@ export const Login = () => {
     </Container>
   );
 };
+
+export default ForgotPassword;

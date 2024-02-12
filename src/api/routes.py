@@ -14,7 +14,6 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api, resources={r"/*": {"origins": "*"}})
 
-
 # Create a route to authenticate your users and return JWTs. The
 # create_access_token() function is used to actually generate the JWT.
 

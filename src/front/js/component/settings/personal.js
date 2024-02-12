@@ -22,6 +22,7 @@ export const PersonalInfo = () => {
     if (window.confirm("Are you sure you want to delete your account?")) {
       actions.deleteUserAccount();
       console.log("Account deleted");
+      actions.logout();
       navigate("/");
     }
   };

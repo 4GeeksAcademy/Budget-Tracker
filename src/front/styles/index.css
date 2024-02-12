@@ -364,3 +364,11 @@ a {
   margin-left: 27px;
   margin-top: 20px;
 }
+
+.Toastify__toast--success {
+  background: #00aa93!important;
+}
+
+.Toastify__toast--error {
+  background: #d9534f!important;
+}

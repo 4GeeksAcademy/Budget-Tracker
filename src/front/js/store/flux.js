@@ -53,6 +53,44 @@ const getState = ({ getStore, getActions, setStore }) => {
         return true;
       },
 
+      forgotPassword: async (email) => {
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
+        };
+      
+        const resp = await fetch(`${apiUrl}/api/forgot-password`, opts);
+        if (resp.status !== 200) {
+          console.log("There has been an error!");
+          return false;
+        }
+        return true;
+      },
+
+      resetPassword: async (token, password) => {
+        const opts = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                password: password,
+            }),
+        };
+    
+        const resp = await fetch(`${apiUrl}/api/reset-password/${token}`, opts);
+        if (resp.status !== 200) {
+            console.log("There has been an error!");
+            return false;
+        }
+        return true;
+    },
+
       signup: async (firstName, lastName, email, password) => {
         const opts = {
           method: "POST",
